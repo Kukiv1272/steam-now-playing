@@ -1,0 +1,20 @@
+{
+  "name": "steam-now-playing",
+  "version": "1.0.0",
+  "description": "Shows what you're listening to on Steam: status text via stats.fm/last.fm + track cover in the artwork showcase",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "status-test": "node src/index.js --status-test"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.65",
+    "cheerio": "^1.0.0",
+    "qrcode": "^1.5.4",
+    "steam-session": "^1.9.4",
+    "steam-totp": "^2.1.2",
+    "steam-user": "^5.3.0",
+    "steamcommunity": "^3.50.0"
+  }
+}
