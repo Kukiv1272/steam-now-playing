@@ -1,0 +1,7 @@
+node_modules/
+.env
+tokens.json
+steam-qr.png
+cache/
+preview-*.png
+*.log
