@@ -75,10 +75,12 @@ export async function uploadShowcaseArtwork(community, buffer) {
     data.image_width = String(config.showcase.width);
     data.image_height = String(config.showcase.height);
   }
-  // Невидимая подпись бота + ключ альбома: cleanup удаляет только наши арты,
-  // а треки одного альбома переиспользуют залитый арт без перезаливки
-  data.title = buildArtTitle(uploadShowcaseArtwork._albumKey || "nocover");
-  data.description = ART_SIGNATURE;
+  // Невидимая подпись бота: только в названии — Steam валидирует длину названия
+  // и отклоняет >20 ZW символов ("Invalid Parameter"). Метка альбома (тоже
+  // невидимая) идёт в описание — по ней треки одного альбома переиспользуют
+  // залитый арт без перезаливки.
+  data.title = ART_SIGNATURE;
+  data.description = ART_SIGNATURE + albumTag(uploadShowcaseArtwork._albumKey || "nocover");
   data.visibility = "0"; // public
   data.agree_terms = "on";
 
