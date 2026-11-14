@@ -22,7 +22,19 @@ function coverCachePath(url) {
 // Returns Buffer of the cover image, downloading once and caching by URL.
 // Some CDNs (i.scdn.co) may be unreachable directly — falls back to the
 // images.weserv.nl image proxy.
+// last.fm placeholder (grey square with a music note) is rejected: for such
+// covers we return null and the card renders on a plain gradient instead.
+const LASTFM_PLACEHOLDER_HASHES = new Set([
+  "2a96cbd8b46e442fc41c2b86b821562f", // classic grey + note
+]);
+
+function isPlaceholderUrl(url) {
+  const m = url.match(/([0-9a-f]{32})(?:\.\w+)?(?:$|[/?])/i);
+  return !!(m && LASTFM_PLACEHOLDER_HASHES.has(m[1].toLowerCase()));
+}
+
 async function fetchCover(url) {
+  if (isPlaceholderUrl(url)) return null; // заглушка — карточка рисует градиент без ноты
   const path = coverCachePath(url);
   try {
     return fs.readFileSync(path);
@@ -68,7 +80,9 @@ export async function generateCard(track) {
   let img = null;
   if (track.coverUrl) {
     try {
-      img = await loadImage(await fetchCover(track.coverUrl));
+      const buf = await fetchCover(track.coverUrl);
+      if (buf) img = await loadImage(buf);
+      // buf === null — заглушка last.fm: рисуем карточку на градиенте без ноты
     } catch (e) {
       console.error(`[card] ${t("card_cover_failed", { message: e.message })}`);
     }
