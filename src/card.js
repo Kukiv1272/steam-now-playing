@@ -4,16 +4,20 @@ import { createCanvas, GlobalFonts, loadImage } from "@napi-rs/canvas";
 import { config } from "./config.js";
 import { t } from "./i18n.js";
 
-// Track card for the artwork showcase. Two layouts:
-// - portrait (default): 630x800, square cover on blurred backdrop
-// - banner (SHOWCASE_WIDE=true): wide artwall, uploaded with fake dims
-//   (image_width=999999, image_height=1) so Steam stretches it full-width.
+// Track card for the artwork showcase. Three layouts (config.showcase.stretch):
+// - none (default): portrait 630x800, square cover on blurred backdrop
+// - wide (SHOWCASE_STRETCH=wide): banner 2400x800, cover left / text right,
+//   uploaded with fake dims (image_width=999999, image_height=1) so Steam
+//   stretches it full-width.
+// - vertical (SHOWCASE_STRETCH=vertical): tall 630x1200, cover on top / text
+//   below, uploaded with image_width=1, image_height=999999 so Steam stretches
+//   it to the full showcase height.
 // Covers are cached on disk (cache/covers/<hash>.img), generated cards too
 // (cache/cards/<hash>.png) — repeated tracks reuse cached files.
 
 // Версия дизайна карточки: участвует в ключе кэша и в ключе альбома —
 // после изменения дизайна карточки перерисовываются и перезаливаются.
-export const CARD_VERSION = "v6";
+export const CARD_VERSION = "v7";
 
 const CACHE_DIR = new URL("../cache/covers/", import.meta.url);
 const CARD_CACHE_DIR = new URL("../cache/cards/", import.meta.url);
@@ -161,8 +165,10 @@ export async function generateCard(track) {
 
   drawBackdrop(ctx, img, W, H);
 
-  if (config.showcase.wide) {
+  if (config.showcase.stretch === "wide") {
     drawBannerContent(ctx, track, img, W, H);
+  } else if (config.showcase.stretch === "vertical") {
+    drawVerticalContent(ctx, track, img, W, H);
   } else {
     drawPortraitContent(ctx, track, img, W, H);
   }
@@ -236,6 +242,66 @@ function drawPortraitContent(ctx, track, img, W, H) {
   ctx.shadowBlur = 0;
 }
 
+// Вытянутая по вертикали карточка (SHOWCASE_STRETCH=vertical): обложка в
+// верхней половине, текстовый блок ниже — центрируется в остатке высоты,
+// чтобы высокий блок витрины не выглядел полупустым.
+function drawVerticalContent(ctx, track, img, W, H) {
+  const margin = Math.round(W * 0.07);
+  const cw = W - margin * 2;
+  // Обложка заметно выше квадрата — пропорции ближе к вертикальному блоку
+  const ch = Math.round(H * 0.48);
+  const cy = Math.round(H * 0.055);
+
+  drawCover(ctx, img, margin, cy, cw, ch);
+
+  // Строки текста собираем заранее (нужна суммарная высота для центрирования)
+  const items = [];
+  const titleSize = W * 0.078;
+  ctx.font = fontStack(fontFor(track.title, true), titleSize);
+  for (const line of wrap(ctx, track.title || "Unknown", cw, 2)) {
+    items.push({ text: line, font: ctx.font, color: "#ffffff", lh: Math.round(titleSize * 1.22) });
+  }
+  const artistSize = W * 0.05;
+  ctx.font = fontStack(fontFor(track.artist, false), artistSize, false);
+  items.push({
+    text: clip(ctx, track.artist || "Unknown artist", cw),
+    font: ctx.font,
+    color: "#dcdcdc",
+    lh: Math.round(artistSize * 1.35),
+    gap: Math.round(W * 0.035),
+  });
+  if (track.album) {
+    const albumSize = W * 0.038;
+    ctx.font = fontStack(fontFor(track.album, false), albumSize, false);
+    items.push({
+      text: clip(ctx, track.album, cw),
+      font: ctx.font,
+      color: "rgba(214,214,214,0.62)",
+      lh: Math.round(albumSize * 1.3),
+      gap: Math.round(W * 0.016),
+    });
+  }
+
+  const areaTop = cy + ch + Math.round(H * 0.045);
+  const areaBottom = H - Math.round(margin * 1.5);
+  const total = items.reduce((sum, it) => sum + (it.gap || 0) + it.lh, 0);
+  let ty = areaTop + Math.max(0, (areaBottom - areaTop - total) / 2);
+
+  ctx.textBaseline = "top";
+  ctx.shadowColor = "rgba(0,0,0,0.5)";
+  ctx.shadowBlur = 10;
+  for (const it of items) {
+    ty += it.gap || 0;
+    ctx.font = it.font;
+    ctx.fillStyle = it.color;
+    ctx.fillText(it.text, margin, ty);
+    ty += it.lh;
+  }
+  ctx.shadowColor = "transparent";
+  ctx.shadowBlur = 0;
+  ctx.textBaseline = "alphabetic";
+}
+
 // Широкий баннер: обложка слева (крупная), название/артист справа
 function drawBannerContent(ctx, track, img, W, H) {
   const margin = Math.round(H * 0.055);
@@ -274,34 +340,38 @@ function drawBannerContent(ctx, track, img, W, H) {
   ctx.textBaseline = "alphabetic";
 }
 
-// Квадратная обложка с тенью, закруглёнными углами и светлой рамкой.
-// contain-fit: квадратная обложка влезает целиком, ничего не срезается.
-function drawCover(ctx, img, x, y, S) {
+// Обложка с тенью, закруглёнными углами и светлой рамкой.
+// Когда w/h не заданы — квадрат (портрет/баннер). Для вертикальной карточки
+// передаётся вытянутый прямоугольник: contain-fit, обложка влезает целиком.
+function drawCover(ctx, img, x, y, w, h = w) {
   ctx.save();
   ctx.shadowColor = "rgba(0,0,0,0.65)";
   ctx.shadowBlur = 40;
   ctx.shadowOffsetY = 18;
-  roundRectPath(ctx, x, y, S, S, 18);
+  roundRectPath(ctx, x, y, w, h, 18);
   ctx.fillStyle = "#000";
   ctx.fill();
   ctx.restore();
 
   ctx.save();
-  roundRectPath(ctx, x, y, S, S, 18);
+  roundRectPath(ctx, x, y, w, h, 18);
   ctx.clip();
   if (img) {
-    const scale = Math.min(S / img.width, S / img.height);
+    // Квадратная рамка — contain-fit (обложка видна целиком).
+    // Вытянутая — cover-fit (заполняет рамку без чёрных полос).
+    const scale =
+      w === h ? Math.min(w / img.width, h / img.height) : Math.max(w / img.width, h / img.height);
     const dw = img.width * scale;
     const dh = img.height * scale;
-    ctx.drawImage(img, x + (S - dw) / 2, y + (S - dh) / 2, dw, dh);
+    ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
   } else {
     ctx.fillStyle = "#2a2a2a";
-    ctx.fillRect(x, y, S, S);
+    ctx.fillRect(x, y, w, h);
   }
   ctx.restore();
 
   ctx.save();
-  roundRectPath(ctx, x + 0.5, y + 0.5, S - 1, S - 1, 18);
+  roundRectPath(ctx, x + 0.5, y + 0.5, w - 1, h - 1, 18);
   ctx.strokeStyle = "rgba(255,255,255,0.22)";
   ctx.lineWidth = 1;
   ctx.stroke();
@@ -325,7 +395,7 @@ export async function getCard(track) {
   const key = crypto
     .createHash("sha1")
     .update(
-      `${CARD_VERSION}|wide=${config.showcase.wide}|${track.artist || ""}|${track.title || ""}|${track.coverUrl || ""}|${config.showcase.width}x${config.showcase.height}`
+      `${CARD_VERSION}|stretch=${config.showcase.stretch}|${track.artist || ""}|${track.title || ""}|${track.coverUrl || ""}|${config.showcase.width}x${config.showcase.height}`
     )
     .digest("hex")
     .slice(0, 24);

@@ -66,11 +66,16 @@ export async function uploadShowcaseArtwork(community, buffer) {
   const prefixMatch = body.match(/cloudfilenameprefix\.value\s*=\s*'([^']+)';/);
   if (prefixMatch) data.cloudfilenameprefix = prefixMatch[1];
 
-  if (config.showcase.wide) {
+  if (config.showcase.stretch === "wide") {
     // Artwall-трюк: заявляем "очень широкую" картинку — Steam растягивает
     // её на всю ширину витрины без letterbox-полос
     data.image_width = "999999";
     data.image_height = "1";
+  } else if (config.showcase.stretch === "vertical") {
+    // Вертикальный вариант: "очень высокая" картинка — Steam растягивает
+    // её на всю высоту блока витрины
+    data.image_width = "1";
+    data.image_height = "999999";
   } else {
     data.image_width = String(config.showcase.width);
     data.image_height = String(config.showcase.height);

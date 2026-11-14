@@ -104,14 +104,29 @@ function buildConfig() {
       minIntervalMs: parseInt(process.env.SHOWCASE_MIN_INTERVAL_MS || "60000", 10),
       type: parseInt(process.env.SHOWCASE_TYPE || "13", 10), // 13 = иллюстрации 2x2, 22 = избранная иллюстрация
       slot: parseInt(process.env.SHOWCASE_SLOT || "0", 10), // слот/ячейка внутри витрины
-      // Широкий баннер: заливаем с image_width=999999/image_height=1 — Steam
-      // растягивает картинку на всю ширину витрины (artwall-трюк). Рекомендуется
-      // SHOWCASE_TYPE=22 и CARD_WIDTH=2400, CARD_HEIGHT=800.
-      wide: process.env.SHOWCASE_WIDE === "true",
-      // Размеры карточки по умолчанию зависят от макета: баннер 2400x800,
-      // вертикальный 630x800. Явные CARD_WIDTH/CARD_HEIGHT в .env побеждают.
-      width: parseInt(process.env.CARD_WIDTH || (process.env.SHOWCASE_WIDE === "true" ? "2400" : "630"), 10),
-      height: parseInt(process.env.CARD_HEIGHT || "800", 10),
+      // Ориентация карточки в витрине:
+      //   wide     — растянуть по всей ширине (image_width=999999/image_height=1)
+      //   vertical — растянуть по всей высоте (image_width=1/image_height=999999)
+      //   none     — обычная карточка, Steam вписывает её как есть
+      // Геттеры — значение всегда читается из окружения, так что правка .env
+      // подхватывается хот-релоадом без перезапуска.
+      get stretch() {
+        const s = (process.env.SHOWCASE_STRETCH || "").trim().toLowerCase();
+        if (s === "wide" || s === "vertical" || s === "none") return s;
+        return process.env.SHOWCASE_WIDE === "true" ? "wide" : "none"; // legacy-флаг
+      },
+      get wide() {
+        return this.stretch === "wide";
+      },
+      // Размеры карточки по умолчанию зависят от ориентации: баннер 2400x800,
+      // вертикальная 630x1200, обычная 630x800.
+      // Явные CARD_WIDTH/CARD_HEIGHT в .env всегда побеждают.
+      get width() {
+        return parseInt(process.env.CARD_WIDTH || (this.stretch === "wide" ? "2400" : "630"), 10);
+      },
+      get height() {
+        return parseInt(process.env.CARD_HEIGHT || (this.stretch === "vertical" ? "1200" : "800"), 10);
+      },
     },
   };
 }

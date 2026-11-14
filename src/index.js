@@ -31,9 +31,9 @@ let noCoverKey = null;
 let noCoverCount = 0;
 
 function albumKeyOf(track) {
-  // Включаем версию дизайна И макет (wide/portrait): после их смены карточки
-  // перезаливаются, а старые арты подчищаются — витрина не залипает
-  return `${track.artist || ""}||${track.album || ""}||${track.coverUrl || ""}||${CARD_VERSION}|wide=${config.showcase.wide}`.toLowerCase();
+  // Включаем версию дизайна И ориентацию (wide/vertical/none): после их
+  // смены карточки перезаливаются, а старые арты подчищаются — витрина не залипает
+  return `${track.artist || ""}||${track.album || ""}||${track.coverUrl || ""}||${CARD_VERSION}|stretch=${config.showcase.stretch}`.toLowerCase();
 }
 
 function formatStatus(track) {
@@ -203,20 +203,20 @@ async function main() {
     await login();
     const type = config.showcase.type;
     const slot = config.showcase.slot;
-    console.log(`[test] Назначаю слот ${slot} -> витрина типа ${type}...`);
+    console.log(`[test] ${t("showcase_slot_applying", { slot, type })}`);
     const { setShowcaseSlot } = await import("./showcase.js");
     try {
       await setShowcaseSlot(steamCommunity, slot, type);
     } catch (e) {
       if (/429/.test(e.message)) {
-        console.log("[test] Лимит держится — финальная попытка через 90с...");
+        console.log(`[test] ${t("showcase_slot_retrying")}`);
         await new Promise((r) => setTimeout(r, 90000));
         await setShowcaseSlot(steamCommunity, slot, type);
       } else {
         throw e;
       }
     }
-    console.log("[test] Слот назначен — проверь профиль");
+    console.log(`[test] ${t("showcase_slot_done")}`);
     process.exit(0);
   }
 
