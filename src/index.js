@@ -12,6 +12,7 @@ import {
   reqRetry,
 } from "./showcase.js";
 import { t } from "./i18n.js";
+import { checkForUpdates, performUpdate } from "./updater.js";
 import { ensureLanguage } from "./first-run.js";
 import fs from "node:fs";
 
@@ -130,6 +131,28 @@ async function main() {
   await ensureLanguage(); // первый запуск: выбор языка (ru/en) -> сохраняется в .env
   const runOnce = process.argv.includes("--once");
 
+  // Проверка обновлений: сравнить HEAD с GitHub и выйти
+  if (process.argv.includes("--check-updates")) {
+    const r = await checkForUpdates();
+    if (r.error) console.log(`[update] ${t("update_check_failed", { message: r.error })}`);
+    else if (r.updateAvailable) console.log(`[update] ${t("update_available", { sha: r.remote.slice(0, 7) })}`);
+    else console.log(`[update] ${t("update_up_to_date")}`);
+    return;
+  }
+
+  // Обновление: git pull (+ npm install, если изменились зависимости)
+  if (process.argv.includes("--update")) {
+    console.log(`[update] ${t("update_start")}`);
+    const r = await performUpdate();
+    if (r.ok) {
+      console.log(`[update] ${t("update_done")}`);
+      if (r.npmDone) console.log(`[update] ${t("update_done_npm")}`);
+    } else {
+      console.error(`[update] ${t("update_failed", { message: r.message })}`);
+    }
+    process.exit(r.ok ? 0 : 1);
+  }
+
   if (process.argv.includes("--check-sources")) {
     const track = await getNowPlaying();
     console.log(JSON.stringify(track, null, 2));
@@ -195,6 +218,19 @@ async function main() {
     console.log(`[debug] Saved showcases-debug.html (${body.length} bytes)`);
     process.exit(0);
   }
+
+  // Проверка обновлений на старте (не блокирует запуск; ошибки молча)
+  const announceUpdate = async () => {
+    try {
+      const r = await checkForUpdates();
+      if (!r.error && r.updateAvailable) {
+        console.log(`[update] ${t("update_available", { sha: r.remote.slice(0, 7) })}`);
+        console.log(`[update] ${t("update_hint")}`);
+      }
+    } catch {}
+  };
+  announceUpdate();
+  setInterval(announceUpdate, 6 * 60 * 60 * 1000).unref?.(); // и раз в 6 часов
 
   await login();
 
