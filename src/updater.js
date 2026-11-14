@@ -1,14 +1,31 @@
-// Проверка и установка обновлений: бот сравнивает локальный git HEAD с
-// GitHub (публичный API, без авторизации) и умеет обновляться `git pull`.
+// Проверка и установка обновлений. Два режима:
+// - git-режим (репозиторий склонирован): git pull
+// - zip-режим (скачан архив, git отсутствует): ZIP с GitHub,
+//   распаковка через PowerShell Expand-Archive, замена файлов.
+//   Сохраняются: .env, tokens.json, cache/, node_modules, bot.log.
 // GitHub API может быть заблокирован в регионе — используется локальный
 // прокси: UPDATE_PROXY, а если не задан — тот же, что для last.fm.
 import { execFile } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import fs from "node:fs";
+import os from "node:os";
 import { config } from "./config.js";
 
 const REPO = "Kukiv1272/steam-now-playing";
 const ROOT = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
+
+// Не трогаем при zip-обновлении: пользовательские данные и зависимости
+const PRESERVE = new Set([
+  "node_modules",
+  ".env",
+  "tokens.json",
+  "cache",
+  "bot.log",
+  "steam-qr.png",
+  "showcases-debug.html",
+  ".git",
+]);
 
 function proxy() {
   return process.env.UPDATE_PROXY || config.lastfm.proxy || "";
@@ -25,6 +42,11 @@ function run(cmd, args) {
       },
     );
   });
+}
+
+async function isGitRepo() {
+  const r = await run("git", ["rev-parse", "--is-inside-work-tree"]);
+  return r.ok && r.stdout === "true";
 }
 
 async function getLocalSha() {
@@ -68,7 +90,6 @@ export async function performUpdate() {
 
   const pull = await run("git", args);
   if (!pull.ok) {
-    // Частые случаи: не git-репозиторий (архив) или локальные правки конфликтуют
     const message = pull.stderr || pull.err?.message || "git pull failed";
     return { ok: false, npmDone: false, message };
   }
@@ -83,4 +104,73 @@ export async function performUpdate() {
   }
 
   return { ok: true, npmDone, message: pull.stdout.split(/\r?\n/).slice(-4).join("\n") };
+}
+
+// ============ ZIP-режим (без git) ============
+
+// Скачивает ZIP дефолтной ветки через прокси (follows redirect с api.github.com)
+async function downloadZip() {
+  const opts = {
+    headers: { "User-Agent": "steam-now-playing" },
+    signal: AbortSignal.timeout(60000),
+  };
+  const p = proxy();
+  if (p) {
+    const { ProxyAgent } = await import("undici");
+    opts.dispatcher = new ProxyAgent(p);
+  }
+  const res = await fetch(`https://api.github.com/repos/${REPO}/zipball`, opts);
+  if (!res.ok) throw new Error(`GitHub HTTP ${res.status}`);
+  return Buffer.from(await res.arrayBuffer());
+}
+
+// Распаковка через встроенный PowerShell Expand-Archive (Windows)
+async function extractZip(zipPath, destDir) {
+  const cmd = `Expand-Archive -LiteralPath '${zipPath}' -DestinationPath '${destDir}' -Force`;
+  const r = await run("powershell.exe", ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", cmd]);
+  if (!r.ok) throw new Error(`Expand-Archive: ${r.stderr || r.err?.message}`);
+}
+
+// Рекурсивное копирование с сохранением пользовательских данных
+function copyTree(src, dest) {
+  fs.cpSync(src, dest, {
+    recursive: true,
+    filter: (srcPath) => {
+      const rel = path.relative(src, srcPath);
+      if (!rel) return true;
+      const first = rel.split(path.sep)[0];
+      return !PRESERVE.has(first);
+    },
+  });
+}
+
+async function updateFromZip() {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "snp-update-"));
+  try {
+    const zip = await downloadZip();
+    const zipPath = path.join(tmp, "repo.zip");
+    fs.writeFileSync(zipPath, zip);
+
+    const outDir = path.join(tmp, "out");
+    fs.mkdirSync(outDir, { recursive: true });
+    await extractZip(zipPath, outDir);
+
+    // Внутри zip единственная папка вида User-Repo-<sha>
+    const entries = fs.readdirSync(outDir);
+    const repoDir = entries.map((e) => path.join(outDir, e)).find((p) => fs.statSync(p).isDirectory());
+    if (!repoDir) throw new Error("не нашёл папку репозитория внутри zip");
+
+    copyTree(repoDir, ROOT);
+    return { ok: true, npmDone: false, message: "файлы обновлены (зависимости не тронуты)" };
+  } finally {
+    try {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    } catch {}
+  }
+}
+
+// Обновление: git-режим если репозиторий, иначе ZIP
+export async function performUpdateAuto() {
+  if (await isGitRepo()) return performUpdate();
+  return updateFromZip();
 }

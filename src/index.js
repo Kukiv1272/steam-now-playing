@@ -12,7 +12,7 @@ import {
   reqRetry,
 } from "./showcase.js";
 import { t } from "./i18n.js";
-import { checkForUpdates, performUpdate } from "./updater.js";
+import { checkForUpdates, performUpdateAuto } from "./updater.js";
 import { ensureLanguage } from "./first-run.js";
 import fs from "node:fs";
 
@@ -140,13 +140,14 @@ async function main() {
     return;
   }
 
-  // Обновление: git pull (+ npm install, если изменились зависимости)
+  // Обновление: git pull если репозиторий, иначе ZIP с GitHub (без git)
   if (process.argv.includes("--update")) {
     console.log(`[update] ${t("update_start")}`);
-    const r = await performUpdate();
+    const r = await performUpdateAuto();
     if (r.ok) {
       console.log(`[update] ${t("update_done")}`);
       if (r.npmDone) console.log(`[update] ${t("update_done_npm")}`);
+      if (r.message) console.log(`[update] ${r.message}`);
     } else {
       console.error(`[update] ${t("update_failed", { message: r.message })}`);
     }
