@@ -53,6 +53,9 @@ function buildConfig() {
     lastfm: {
       apiKey: process.env.LASTFM_API_KEY || "",
       username: process.env.LASTFM_USERNAME || "",
+      // Локальный HTTP-прокси (v2rayN/clash) для обхода блокировки last.fm:
+      // LASTFM_PROXY=http://127.0.0.1:10809
+      proxy: process.env.LASTFM_PROXY || "",
     },
     statsfm: {
       username: process.env.STATSFM_USERNAME || "",

@@ -1,7 +1,19 @@
 import { config } from "./config.js";
+import { ProxyAgent } from "undici";
 
 // Unified "now playing" track: { playing, title, artist, album, coverUrl, source }
 // Sources are tried in order: stats.fm -> last.fm (first configured wins).
+//
+// Some regions (e.g. BY/RU) are blocked by last.fm. If a local VPN proxy is
+// running (v2rayN/clash etc.), set LASTFM_PROXY=http://127.0.0.1:10809 in .env
+// — only last.fm requests go through it, everything else stays direct.
+
+let lfmDispatcher = null;
+async function getLfmDispatcher() {
+  if (!config.lastfm.proxy) return undefined;
+  if (!lfmDispatcher) lfmDispatcher = new ProxyAgent(config.lastfm.proxy);
+  return lfmDispatcher;
+}
 
 export async function getNowPlaying() {
   if (config.statsfm.username) {
@@ -51,7 +63,8 @@ async function lastfmNowPlaying({ apiKey, username }) {
   const url =
     `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(username)}` +
     `&api_key=${encodeURIComponent(apiKey)}&format=json&limit=1`;
-  const res = await fetch(url);
+  const dispatcher = await getLfmDispatcher();
+  const res = await fetch(url, dispatcher ? { dispatcher } : {});
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const json = await res.json();
   const raw = json?.recenttracks?.track;
