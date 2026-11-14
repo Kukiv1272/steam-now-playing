@@ -2,13 +2,29 @@ import { config } from "./config.js";
 import { getNowPlaying } from "./sources.js";
 import { login, client, community as steamCommunity, setNowPlayingText, clearNowPlaying, myProfileUrl } from "./steam.js";
 import { getCard } from "./card.js";
-import { uploadShowcaseArtwork, updateShowcase as saveShowcase, cleanupOldArtworks, deleteArtwork, reqRetry } from "./showcase.js";
+import {
+  uploadShowcaseArtwork,
+  updateShowcase as saveShowcase,
+  cleanupOldArtworks,
+  deleteArtwork,
+  findArtworkByAlbum,
+  buildArtTitle,
+  reqRetry,
+} from "./showcase.js";
 import { t } from "./i18n.js";
 import fs from "node:fs";
 
 const startedAt = Date.now();
 let lastStateKey = null;
 let lastShowcaseAt = 0;
+// Дедупликация по альбому: если трек из уже залитого альбома — не заливаем
+// арт заново, а переиспользуем существующий fileId (быстрее и меньше 429)
+let currentFileId = null;
+let currentAlbumKey = null;
+
+function albumKeyOf(track) {
+  return `${track.artist || ""}||${track.album || ""}||${track.coverUrl || ""}`.toLowerCase();
+}
 
 function formatStatus(track) {
   return config.status.template
@@ -27,19 +43,43 @@ async function updateShowcase(track) {
   }
   if (now - lastShowcaseAt < config.showcase.minIntervalMs) return "retry";
   lastShowcaseAt = now;
+
+  const albumKey = albumKeyOf(track);
+
   try {
+    // Тот же альбом, что уже на витрине — арт не трогаем вовсе
+    if (currentFileId && albumKey === currentAlbumKey) {
+      console.log(`[showcase] ${t("showcase_album_reuse")}`);
+      return "ok";
+    }
+
+    // Тот же альбом, но заливали в прошлой сессии — ищем арт в галерее
+    const existing = await findArtworkByAlbum(steamCommunity, albumKey);
+    if (existing) {
+      await saveShowcase(steamCommunity, existing, config.showcase.type, config.showcase.slot);
+      console.log(`[showcase] ${t("showcase_album_reuse_found", { id: existing })}`);
+      currentFileId = existing;
+      currentAlbumKey = albumKey;
+      return "ok";
+    }
+
     const png = await getCard(track); // кэш: повторный трек не рендерится и не качается
     console.log(`[showcase] ${t("showcase_uploading")}`);
+    uploadShowcaseArtwork._albumKey = albumKey; // подпись арта ключом альбома
     const fileId = await uploadShowcaseArtwork(steamCommunity, png);
+    delete uploadShowcaseArtwork._albumKey;
     console.log(`[showcase] ${t("showcase_uploaded", { id: fileId })}`);
     // Арты заливаются сразу публичными (visibility=0 в форме загрузки) — публикация не нужна
     await saveShowcase(steamCommunity, fileId, config.showcase.type, config.showcase.slot);
     console.log(`[showcase] ${t("showcase_updated")}`);
+    currentFileId = fileId;
+    currentAlbumKey = albumKey;
     // Чистим прошлые карточки — в галерее остаётся только актуальная
     const deleted = await cleanupOldArtworks(steamCommunity, fileId);
     if (deleted > 0) console.log(`[showcase] ${t("showcase_cleanup_done", { count: deleted })}`);
     return "ok";
   } catch (e) {
+    delete uploadShowcaseArtwork._albumKey;
     console.error(`[showcase] ${t("showcase_failed", { message: e.message })}`);
     return "retry"; // попробуем в следующих кругах (обычно 429 — лимит)
   }
@@ -49,7 +89,14 @@ async function updateShowcase(track) {
 // Пустая витрина Steam на профиле не отрисовывает.
 async function clearShowcase() {
   try {
-    // id текущего арта — со страницы галереи (единственный оставшийся)
+    if (currentFileId) {
+      const ok = await deleteArtwork(steamCommunity, currentFileId);
+      if (ok) console.log(`[showcase] ${t("showcase_cleared", { id: currentFileId })}`);
+      currentFileId = null;
+      currentAlbumKey = null;
+      return;
+    }
+    // fileId не знаем (напр. бот перезапустился во время паузы) — чистим всю нашу
     const { body } = await reqRetry(steamCommunity, "GET", { uri: `${myProfileUrl()}/images` });
     const ids = [...new Set([...body.matchAll(/data-publishedfileid="(\d+)"/g)].map((m) => m[1]))];
     for (const id of ids) {
@@ -62,6 +109,8 @@ async function clearShowcase() {
 }
 
 async function main() {
+  const runOnce = process.argv.includes("--once");
+
   if (process.argv.includes("--check-sources")) {
     const track = await getNowPlaying();
     console.log(JSON.stringify(track, null, 2));
@@ -130,10 +179,27 @@ async function main() {
 
   await login();
 
+  // Один цикл проверки и выход — для планировщика задач (cron, Task Scheduler)
+  if (runOnce) {
+    const track = await getNowPlaying();
+    const playing = !!(track && track.playing);
+    if (!playing) {
+      console.log(`[main] ${t("nothing_playing")}`);
+      clearNowPlaying();
+      if (config.showcase.enabled) await clearShowcase();
+    } else {
+      console.log(`[main] ${t("now_playing", { title: track.title, artist: track.artist, source: track.source })}`);
+      setNowPlayingText(formatStatus(track));
+      if (config.showcase.enabled) await updateShowcase(track);
+    }
+    process.exit(0);
+  }
+
   // Самоперепланирующийся цикл: config.pollMs читается каждый круг,
   // так что правка POLL_INTERVAL_MS в .env подхватывается без перезапуска
   const pollLoop = async () => {
     let pendingShowcase = false; // витрина ждёт обновления (первый трек, смена, возобновление)
+    let idleCount = 0; // подряд идущих кругов без трека — для сжатого лога
     for (;;) {
       try {
         const track = await getNowPlaying();
@@ -145,15 +211,22 @@ async function main() {
           lastStateKey = stateKey;
 
           if (!playing) {
-            console.log(`[main] ${t("nothing_playing")}`);
+            idleCount++;
+            if (idleCount === 1 || idleCount % 60 === 0) {
+              // «Ничего не играет» — один раз, потом раз в ~2 минуты (не спамим)
+              console.log(`[main] ${t("nothing_playing")}`);
+            }
             clearNowPlaying(); // не ставим никакой статус вообще
             pendingShowcase = false;
             if (config.showcase.enabled) await clearShowcase();
           } else {
+            idleCount = 0;
             console.log(`[main] ${t("now_playing", { title: track.title, artist: track.artist, source: track.source })}`);
             setNowPlayingText(formatStatus(track));
             if (config.showcase.enabled) pendingShowcase = true;
           }
+        } else if (!playing) {
+          idleCount++;
         }
 
         // Витрина обновляется отдельно от статуса: если обложка ещё не

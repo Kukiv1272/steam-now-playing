@@ -21,14 +21,15 @@ function req(community, method, options) {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// Steam лимитирует edit-эндпоинты (429) — ретраим с выдержкой
-async function reqRetry(community, method, options, attempts = 4) {
+// Steam лимитирует edit-эндпоинты (429) — ретраим с экспоненциальной выдержкой:
+// 5с, 10с, 20с, 40с... (кап 60с), чтобы не долбить API во время долгого лимита
+async function reqRetry(community, method, options, attempts = 5) {
   for (let i = 0; ; i++) {
     try {
       return await req(community, method, options);
     } catch (e) {
       if (i < attempts - 1 && /HTTP error 429|HTTP error 5\d\d/.test(e.message)) {
-        const wait = 5000 * (i + 1);
+        const wait = Math.min(60000, 5000 * 2 ** i);
         console.log(`[showcase] ${t("showcase_rate_limited", { wait: wait / 1000 })}`);
         await sleep(wait);
         continue;
@@ -74,10 +75,9 @@ export async function uploadShowcaseArtwork(community, buffer) {
     data.image_width = String(config.showcase.width);
     data.image_height = String(config.showcase.height);
   }
-  // Невидимая подпись бота: и в названии, и в описании (двойная страховка —
-  // Steam может срезать zero-width символы в одном из полей). На профиле
-  // и в галерее не видна; по ней cleanup удаляет только наши карточки.
-  data.title = ART_SIGNATURE;
+  // Невидимая подпись бота + ключ альбома: cleanup удаляет только наши арты,
+  // а треки одного альбома переиспользуют залитый арт без перезаливки
+  data.title = buildArtTitle(uploadShowcaseArtwork._albumKey || "nocover");
   data.description = ART_SIGNATURE;
   data.visibility = "0"; // public
   data.agree_terms = "on";
@@ -193,8 +193,60 @@ export async function setShowcaseSlot(community, slotIndex, showcaseType) {
 // арта. Нигде не видна (ни на витрине, ни в галерее), но читается из HTML
 // страницы управления — по ней cleanup отличает карточки бота от твоих
 // личных иллюстраций. Плюс распознаём старое видимое имя "now-playing".
+// После подписи идёт невидимая метка альбома: биты sha1(albumKey) -> ZWSP/ZWNJ.
+// Треки одного альбома переиспользуют один и тот же арт без перезаливки.
 export const ART_SIGNATURE = "\u200B\u200C".repeat(10);
 export const LEGACY_TITLE = "now-playing";
+import crypto from "node:crypto";
+
+// albumKey -> невидимая битовая метка (первые 8 байт sha1 = 64 ZW-символа)
+function albumTag(albumKey) {
+  const hash = crypto.createHash("sha1").update(albumKey).digest();
+  let bits = "";
+  for (const byte of hash.subarray(0, 8)) {
+    bits += byte.toString(2).padStart(8, "0");
+  }
+  return bits.replace(/0/g, "\u200B").replace(/1/g, "\u200C");
+}
+function albumFromTag(text) {
+  const m = text.match(new RegExp(ART_SIGNATURE + "([\\u200B\\u200C]+)"));
+  if (!m) return null;
+  const bits = m[1].replace(/\u200B/g, "0").replace(/\u200C/g, "1");
+  if (bits.length < 8 || bits.length % 8 !== 0) return null;
+  const bytes = [];
+  for (let i = 0; i < bits.length; i += 8) bytes.push(parseInt(bits.slice(i, i + 8), 2));
+  return "hash:" + Buffer.from(bytes).toString("hex");
+}
+export function buildArtTitle(albumKey) {
+  return ART_SIGNATURE + albumTag(albumKey);
+}
+function albumHash(albumKey) {
+  return "hash:" + crypto.createHash("sha1").update(albumKey).digest().subarray(0, 8).toString("hex");
+}
+
+// Ищем в галерее наш арт, у которого метка альбома совпадает с текущим треком.
+// Возвращаем fileId или null.
+export async function findArtworkByAlbum(community, albumKey) {
+  try {
+    const { body } = await reqRetry(community, "GET", { uri: `${myProfileUrl()}/images` });
+    const items = parseGalleryItems(body);
+    const want = albumHash(albumKey);
+    for (const [id, text] of items) {
+      const ours = text.includes(ART_SIGNATURE) || text.trim() === LEGACY_TITLE;
+      if (!ours) continue;
+      const got = albumFromTag(text);
+      if (got && got === want) return id;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+export function albumFromTagSafe(text) {
+  const got = albumFromTag(text);
+  return got ? "hash-ok" : null;
+}
 
 // Парсим галерею: { id -> название+описание арта }. Ищем подпись бота и в
 // названии (<q class="ellipsis">), и в описании внутри блока элемента.
