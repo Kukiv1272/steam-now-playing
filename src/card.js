@@ -11,6 +11,10 @@ import { t } from "./i18n.js";
 // Covers are cached on disk (cache/covers/<hash>.img), generated cards too
 // (cache/cards/<hash>.png) — repeated tracks reuse cached files.
 
+// Версия дизайна карточки: участвует в ключе кэша и в ключе альбома —
+// после изменения дизайна карточки перерисовываются и перезаливаются.
+export const CARD_VERSION = "v6";
+
 const CACHE_DIR = new URL("../cache/covers/", import.meta.url);
 const CARD_CACHE_DIR = new URL("../cache/cards/", import.meta.url);
 
@@ -61,15 +65,71 @@ async function fetchCover(url) {
   return buf;
 }
 
+// Шрифтовая система: регистрируем все языковые шрифты Windows и выбираем
+// подходящий под текст трека. Arial не содержит CJK-глифов — без этого
+// японские/китайские/корейские названия превращаются в квадраты.
+const FONT_FILES = [
+  ["C:\\Windows\\Fonts\\arialbd.ttf", "ArialB"], // латиница/кириллица, жирный
+  ["C:\\Windows\\Fonts\\arial.ttf", "Arial"],
+  ["C:\\Windows\\Fonts\\YuGothB.ttc", "YuGothB"], // японский, жирный
+  ["C:\\Windows\\Fonts\\YuGothM.ttc", "YuGothM"], // японский, обычный
+  ["C:\\Windows\\Fonts\\msyhbd.ttc", "CJK-B"], // китайский (упр.), жирный
+  ["C:\\Windows\\Fonts\\msyh.ttc", "CJK"],
+  ["C:\\Windows\\Fonts\\msjhbd.ttc", "CJK-TC-B"], // китайский (трад.)
+  ["C:\\Windows\\Fonts\\malgunbd.ttf", "Korean-B"], // корейский, жирный
+  ["C:\\Windows\\Fonts\\malgun.ttf", "Korean"],
+  ["C:\\Windows\\Fonts\\seguiemj.ttf", "Emoji"], // эмодзи
+  ["C:\\Windows\\Fonts\\segoeuib.ttf", "SegoeB"],
+  ["C:\\Windows\\Fonts\\segoeui.ttf", "Segoe"],
+];
+
+const registeredFonts = new Set();
+
 function registerFonts() {
-  for (const [path, alias] of [
-    ["C:\\Windows\\Fonts\\arialbd.ttf", "ArialB"],
-    ["C:\\Windows\\Fonts\\arial.ttf", "Arial"],
-  ]) {
+  for (const [path, alias] of FONT_FILES) {
     try {
-      if (fs.existsSync(path)) GlobalFonts.registerFromPath(path, alias);
+      if (fs.existsSync(path) && GlobalFonts.registerFromPath(path, alias)) {
+        registeredFonts.add(alias);
+      }
     } catch {}
   }
+}
+
+// Порядок предпочтения шрифтов для строки; возвращает первый зарегистрированный
+function pickFont(candidates) {
+  for (const alias of candidates) if (registeredFonts.has(alias)) return alias;
+  return registeredFonts.has("ArialB") ? "ArialB" : [...registeredFonts][0] || "sans-serif";
+}
+
+// Определяем "самый сложный" сценарий в строке: кана -> японский, хангыль ->
+// корейский, идеографы -> китайский, кириллица -> Arial. Latin-дополнение у
+// CJK-шрифтов есть, так что смешанные строки покрываются.
+function fontFor(text, bold = true) {
+  const s = /[\u3040-\u30ff\u31f0-\u31ff]/.test(text)
+    ? "ja"
+    : /[\uac00-\ud7af\u1100-\u11ff]/.test(text)
+      ? "ko"
+      : /[\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff]/.test(text)
+        ? "zh"
+        : "latin";
+  switch (s) {
+    case "ja":
+      return bold ? pickFont(["YuGothB", "CJK-B", "Korean-B"]) : pickFont(["YuGothM", "CJK", "Korean"]);
+    case "ko":
+      return bold ? pickFont(["Korean-B", "CJK-B", "YuGothB"]) : pickFont(["Korean", "CJK", "YuGothM"]);
+    case "zh":
+      return bold ? pickFont(["CJK-B", "YuGothB", "Korean-B"]) : pickFont(["CJK", "YuGothM", "Korean"]);
+    default:
+      return bold ? pickFont(["ArialB", "SegoeB"]) : pickFont(["Arial", "Segoe"]);
+  }
+}
+
+// Строка ctx.font: основное семейство по скрипту + запасные зарегистрированные.
+// Skia использует список как fallback-цепочку для отдельных глифов.
+function fontStack(primary, sizePx, bold = true) {
+  const others = [...registeredFonts].filter((a) => a !== primary && !/Emoji/.test(a));
+  const quoted = [primary, ...others].map((a) => `"${a}"`).join(", ");
+  return `${bold ? "bold " : ""}${Math.round(sizePx)}px ${quoted}, sans-serif`;
 }
 
 export async function generateCard(track) {
@@ -153,14 +213,15 @@ function drawPortraitContent(ctx, img, W, H) {
 
   drawCover(ctx, img, x, y, S);
 
-  // Текст внизу
+  // Текст внизу — шрифт подбирается под скрипт названия (CJK-названия
+  // рендерятся Yu Gothic и т.п., латиница/кириллица — Arial)
   const textTop = y + S + Math.round(H * 0.045);
-  ctx.font = `${Math.round(W * 0.062)}px ArialB, sans-serif`;
+  ctx.font = fontStack(fontFor(track.title, true), W * 0.062);
   ctx.fillStyle = "#ffffff";
   ctx.shadowColor = "rgba(0,0,0,0.5)";
   ctx.shadowBlur = 8;
   ctx.fillText(clip(ctx, track.title || "Unknown", W - margin * 2), margin, textTop);
-  ctx.font = `${Math.round(W * 0.048)}px Arial, sans-serif`;
+  ctx.font = fontStack(fontFor(track.artist, false), W * 0.048, false);
   ctx.fillStyle = "#cfcfcf";
   ctx.fillText(clip(ctx, track.artist || "Unknown artist", W - margin * 2), margin, textTop + Math.round(W * 0.075));
   ctx.shadowColor = "transparent";
@@ -186,8 +247,9 @@ function drawBannerContent(ctx, track, img, W, H) {
   ctx.shadowColor = "rgba(0,0,0,0.55)";
   ctx.shadowBlur = 10;
 
-  // Название — крупно, перенос до 2 строк
-  ctx.font = `${Math.round(H * 0.17)}px ArialB, sans-serif`;
+  // Название — крупно, перенос до 2 строк (CJK-строки без пробелов
+  // переносятся посимвольно)
+  ctx.font = fontStack(fontFor(track.title, true), H * 0.17);
   const titleLines = wrap(ctx, track.title || "Unknown", maxTextW, 2);
   let ty = midY - (titleLines.length - 1) * H * 0.10 - H * 0.02;
   for (const line of titleLines) {
@@ -196,7 +258,7 @@ function drawBannerContent(ctx, track, img, W, H) {
   }
 
   // Артист
-  ctx.font = `${Math.round(H * 0.12)}px Arial, sans-serif`;
+  ctx.font = fontStack(fontFor(track.artist, false), H * 0.12, false);
   ctx.fillStyle = "#e0e0e0";
   ctx.fillText(clip(ctx, track.artist || "Unknown artist", maxTextW), textX, ty + H * 0.01);
   ctx.shadowColor = "transparent";
@@ -255,7 +317,7 @@ export async function getCard(track) {
   const key = crypto
     .createHash("sha1")
     .update(
-      `v5|wide=${config.showcase.wide}|${track.artist || ""}|${track.title || ""}|${track.coverUrl || ""}|${config.showcase.width}x${config.showcase.height}`
+      `${CARD_VERSION}|wide=${config.showcase.wide}|${track.artist || ""}|${track.title || ""}|${track.coverUrl || ""}|${config.showcase.width}x${config.showcase.height}`
     )
     .digest("hex")
     .slice(0, 24);
@@ -274,32 +336,57 @@ export async function getCard(track) {
 
 function clip(ctx, text, maxWidth) {
   if (ctx.measureText(text).width <= maxWidth) return text;
-  let t = text;
-  while (t.length > 1 && ctx.measureText(t + "…").width > maxWidth) t = t.slice(0, -1);
-  return t + "…";
+  // Режем по кодпоинтам (Array.from), чтобы не сломать эмодзи/суррогатные пары
+  const chars = Array.from(text);
+  while (chars.length > 1 && ctx.measureText(chars.join("") + "…").width > maxWidth) chars.pop();
+  return chars.join("") + "…";
 }
 
-// Перенос по словам, максимум maxLines строк (последняя с многоточием)
+// Перенос по словам, максимум maxLines строк (последняя с многоточием).
+// Слово шире строки (CJK-названия почти без пробелов) переносится посимвольно.
 function wrap(ctx, text, maxWidth, maxLines) {
-  const words = String(text).split(/\s+/);
+  const words = String(text).split(/\s+/).filter(Boolean);
   const lines = [];
   let cur = "";
+
+  const pushCur = () => {
+    if (cur) {
+      lines.push(cur);
+      cur = "";
+    }
+  };
+
   for (const w of words) {
+    if (ctx.measureText(w).width > maxWidth) {
+      // Слово не влезает целиком — символ за символом
+      pushCur();
+      for (const ch of Array.from(w)) {
+        if (cur && ctx.measureText(cur + ch).width > maxWidth) {
+          lines.push(cur);
+          cur = ch;
+          if (lines.length === maxLines) break;
+        } else {
+          cur += ch;
+        }
+      }
+      if (lines.length === maxLines) break;
+      continue;
+    }
     const next = cur ? cur + " " + w : w;
     if (ctx.measureText(next).width <= maxWidth || !cur) {
       cur = next;
     } else {
-      lines.push(cur);
+      pushCur();
       cur = w;
       if (lines.length === maxLines) break;
     }
   }
-  if (lines.length < maxLines && cur) lines.push(cur);
-  if (lines.length === maxLines) {
-    const last = lines[maxLines - 1];
-    if (words.join(" ") !== lines.join(" ").trim()) {
-      lines[maxLines - 1] = clip(ctx, last, maxWidth);
-    }
+  pushCur();
+
+  if (lines.length > maxLines) lines.length = maxLines;
+  const rendered = lines.join(" ").trim();
+  if (rendered !== String(text).trim()) {
+    lines[maxLines - 1] = clip(ctx, lines[maxLines - 1], maxWidth);
   }
   return lines;
 }

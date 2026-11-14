@@ -1,7 +1,7 @@
 import { config } from "./config.js";
 import { getNowPlaying } from "./sources.js";
 import { login, client, community as steamCommunity, setNowPlayingText, clearNowPlaying, myProfileUrl } from "./steam.js";
-import { getCard } from "./card.js";
+import { getCard, CARD_VERSION } from "./card.js";
 import {
   uploadShowcaseArtwork,
   updateShowcase as saveShowcase,
@@ -29,7 +29,9 @@ let noCoverKey = null;
 let noCoverCount = 0;
 
 function albumKeyOf(track) {
-  return `${track.artist || ""}||${track.album || ""}||${track.coverUrl || ""}`.toLowerCase();
+  // Включаем версию дизайна: после её смены карточки перезаливаются,
+  // а старые арты подчищаются — витрина не залипает на устаревшем рендере
+  return `${track.artist || ""}||${track.album || ""}||${track.coverUrl || ""}||${CARD_VERSION}`.toLowerCase();
 }
 
 function formatStatus(track) {
