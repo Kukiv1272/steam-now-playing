@@ -15,6 +15,7 @@ import { t } from "./i18n.js";
 import { checkForUpdates, performUpdateAuto } from "./updater.js";
 import { ensureLanguage } from "./first-run.js";
 import fs from "node:fs";
+import net from "node:net";
 
 const startedAt = Date.now();
 let lastStateKey = null;
@@ -232,6 +233,21 @@ async function main() {
   };
   announceUpdate();
   setInterval(announceUpdate, 6 * 60 * 60 * 1000).unref?.(); // и раз в 6 часов
+
+  // Одна копия бота: занимаем локальный порт — второй экземпляр сразу выйдет.
+  // Два бота на одном аккаунте = война сессий Steam (LogonSessionReplaced).
+  // Порт освобождается автоматически при закрытии процесса (net, не lock-файл).
+  await new Promise((resolve) => {
+    const srv = net.createServer();
+    srv.once("error", () => {
+      console.error(`[main] ${t("already_running")}`);
+      process.exit(0);
+    });
+    srv.listen(54321, "127.0.0.1", () => {
+      srv.unref(); // не держим процесс ради слушателя
+      resolve();
+    });
+  });
 
   await login();
 

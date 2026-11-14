@@ -66,6 +66,7 @@ const dicts = {
     update_done: "Обновлено. Перезапусти бота",
     update_done_npm: "Зависимости обновлены (npm install)",
     update_failed: "Обновление не удалось: {message}",
+    already_running: "Бот уже запущен — второй экземпляр не нужен (два бота воюют за сессию Steam). Закрой это окно",
   },
   en: {
     menu_title: "=== How to log in to Steam? ===",
@@ -133,6 +134,7 @@ const dicts = {
     update_done: "Updated. Restart the bot",
     update_done_npm: "Dependencies updated (npm install)",
     update_failed: "Update failed: {message}",
+    already_running: "Bot is already running — a second instance is not needed (two bots fight over the Steam session). Close this window",
   },
 };
 
