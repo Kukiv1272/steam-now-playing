@@ -68,20 +68,73 @@ node src/index.js --showcase-slot  # переключить слот витри�
 - `LASTFM_*`, `STATSFM_USERNAME` — применяются на следующем опросе
 - `STEAM_*` — только после перезапуска (нужен новый логин)
 
-## Установка
+## Установка и настройка
+
+### 1. Node.js и npm
+
+npm ставится вместе с Node.js — отдельно ничего ставить не нужно.
+
+1. Скачай **LTS-версию** с [nodejs.org](https://nodejs.org/) (кнопка «LTS», установщик `.msi` для Windows)
+2. Установи (можно всё по умолчанию, галочки менять не надо)
+3. Проверь в консоли:
+
+```bash
+node -v   # например v22.x.x
+npm -v    # например 10.x.x
+```
+
+4. В папке проекта установи зависимости:
 
 ```bash
 npm install
-cp .env.example .env
-# .env опционален — можно войти по QR-коду; но для статуса нужен хотя бы один источник трека
-npm start
 ```
 
-Проверка источников без Steam-логина:
+### 2. last.fm
+
+1. **Регистрация**: [last.fm/join](https://www.last.fm/join) — email, ник, пароль. Регистрацию можно пройти и через мобильное приложение last.fm
+2. **Подключи скробблер** — источник треков. Варианты: YouTube Music / Spotify / Яндекс Музыка через браузерное расширение, на телефоне — Pano Scrobbler (Android) или похожий. Без скробблера last.fm не будет знать, что ты слушаешь
+3. **Получи API key** (бесплатно, мгновенно):
+   - Залогинься на last.fm и открой [last.fm/api/account/create](https://www.last.fm/api/account/create)
+   - Форма: `Application name` — любое (например `steam-now-playing`), описание — любое, `Callback URL` — можно `http://localhost`
+   - После создания увидишь **Key** — это и есть твой API key
+4. **Впиши в `.env`**:
+
+```env
+LASTFM_API_KEY=полученный_ключ
+LASTFM_USERNAME=твой_ник_на_last.fm
+```
+
+> Если last.fm в твоём регионе заблокирован (403) и работает локальный VPN (v2rayN, clash) — добавь `LASTFM_PROXY=http://127.0.0.1:10809`. Через прокси пойдут только запросы к last.fm.
+
+### 3. stats.fm
+
+1. **Регистрация**: [app.stats.fm](https://app.stats.fm) — Sign up через email или Google
+2. **Ник** — виден в адресе твоего профиля: `app.stats.fm/твой_ник` (или в приложении stats.fm → профиль)
+3. **Подключи сервисы** в настройках профиля (Sources): Spotify подключается в один клик
+4. **Впиши в `.env`**:
+
+```env
+STATSFM_USERNAME=твой_ник
+```
+
+> stats.fm без подписки синхронизирует только Spotify. Если слушаешь не в Spotify — оставь last.fm-скробблер: бот возьмёт треки оттуда.
+
+### 4. Настройка `.env` и запуск
 
 ```bash
-node src/index.js --check-sources
+copy .env.example .env   # Windows (в Linux/macOS: cp .env.example .env)
 ```
+
+Открой `.env` и заполни как минимум один источник (last.fm или stats.fm) — этого достаточно. Steam-креды можно не заполнять: бот предложит вход по QR-коду.
+
+```bash
+node src/index.js --check-sources   # проверка: что сейчас играет (JSON)
+node src/index.js                   # запуск бота
+```
+
+Или просто двойной клик по `start-bot.bat`.
+
+Приоритет источников: **stats.fm → last.fm** (нужен хотя бы один).
 
 ## Steam Guard
 
