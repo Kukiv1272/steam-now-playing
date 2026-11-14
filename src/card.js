@@ -39,6 +39,14 @@ function isPlaceholderUrl(url) {
 
 async function fetchCover(url) {
   if (isPlaceholderUrl(url)) return null; // заглушка — карточка рисует градиент без ноты
+  // Локальный файл (DEFAULT_COVER может быть путём на диске) — читаем напрямую
+  if (!/^https?:/i.test(url)) {
+    try {
+      return fs.readFileSync(url);
+    } catch {
+      return null;
+    }
+  }
   const path = coverCachePath(url);
   try {
     return fs.readFileSync(path);

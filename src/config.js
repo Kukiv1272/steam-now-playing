@@ -92,6 +92,9 @@ function buildConfig() {
       // LASTFM_PROXY=http://127.0.0.1:10809
       proxy: process.env.LASTFM_PROXY || "",
     },
+    // Своя картинка-заглушка обложки, когда обложки трека нет нигде:
+    // путь к файлу (D:\pics\cover.jpg) или URL. Пусто = градиент без обложки.
+    defaultCover: process.env.DEFAULT_COVER || "",
     statsfm: {
       username: process.env.STATSFM_USERNAME || "",
     },

@@ -27,7 +27,7 @@ function isPlaceholderCover(url) {
 const coverFallbackCache = new Map();
 const COVER_CACHE_MAX = 300;
 
-async function resolveCoverFallback(title, artist, url) {
+async function resolveCoverFallback(title, artist, album, url) {
   if (!url || !isPlaceholderCover(url)) return url;
   const key = `${artist}|${title}`.toLowerCase();
   if (coverFallbackCache.has(key)) return coverFallbackCache.get(key);
@@ -42,14 +42,40 @@ async function resolveCoverFallback(title, artist, url) {
       if (art) found = art.replace("100x100", "600x600");
     }
   } catch {
-    // iTunes недоступен — остаётся null
+    // iTunes недоступен — пробуем Cover Art Archive
   }
+
+  // Cover Art Archive (MusicBrainz): ищем по альбому + артисту
+  if (!found) found = await coverArtArchive(album, artist);
 
   if (coverFallbackCache.size >= COVER_CACHE_MAX) {
     coverFallbackCache.delete(coverFallbackCache.keys().next().value);
   }
   coverFallbackCache.set(key, found);
   return found;
+}
+
+// coverartarchive.org: MBID release-group -> front-500 (redirect на archive.org;
+// если archive.org недоступен — card.js скачает через images.weserv.nl)
+async function coverArtArchive(album, artist) {
+  if (!album || !artist) return null;
+  try {
+    const q = `releasegroup:"${album}" AND artist:"${artist}"`;
+    const u = `https://musicbrainz.org/ws/2/release-group/?query=${encodeURIComponent(q)}&fmt=json&limit=1`;
+    const r = await fetch(u, {
+      headers: { "User-Agent": "steam-now-playing/1.0 (github.com/Kukiv1272/steam-now-playing)" },
+      signal: AbortSignal.timeout(6000), // MusicBrainz троттлит — не тормозим карточку
+    });
+    if (!r.ok) return null;
+    const j = await r.json();
+    // MusicBrainz search: ключ = имя сущности ("release-groups"), не "results"
+    const list = j.results || j["release-groups"] || [];
+    const mbid = list[0]?.id;
+    if (!mbid) return null;
+    return `https://coverartarchive.org/release-group/${mbid}/front-500.jpg`;
+  } catch {
+    return null;
+  }
 }
 
 let lfmDispatcher = null;
@@ -134,8 +160,8 @@ async function lastfmNowPlaying({ apiKey, username }) {
   if (!track) return null;
   const images = Array.isArray(track.image) ? track.image : [];
   const lfmCover = images.find((i) => i.size === "extralarge")?.["#text"] || images.at(-1)?.["#text"] || null;
-  // Заглушка last.fm → ищем настоящую обложку в iTunes
-  const coverUrl = await resolveCoverFallback(track.name || "", track.artist?.["#text"] || "", lfmCover);
+  // Заглушка last.fm → ищем настоящую обложку: iTunes, затем Cover Art Archive
+  const coverUrl = await resolveCoverFallback(track.name || "", track.artist?.["#text"] || "", track.album?.["#text"] || "", lfmCover);
   return {
     playing: track["@attr"]?.nowplaying === "true",
     title: track.name || "",

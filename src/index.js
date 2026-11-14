@@ -57,6 +57,13 @@ async function updateShowcase(track) {
     noCoverCount++;
     if (noCoverCount === 1) console.log(`[showcase] ${t("showcase_no_cover")}`);
     if (noCoverCount < 5) return "retry";
+    // Обложки нет нигде — если задан DEFAULT_COVER, ставим свою картинку
+    if (config.defaultCover) {
+      console.log(`[showcase] ${t("showcase_default_cover")}`);
+      track.coverUrl = config.defaultCover;
+      noCoverKey = null;
+      noCoverCount = 0;
+    }
   } else {
     noCoverKey = null;
     noCoverCount = 0;
