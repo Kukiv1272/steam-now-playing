@@ -1,5 +1,6 @@
 node_modules/
 node/
+.version
 .env
 tokens.json
 steam-qr.png

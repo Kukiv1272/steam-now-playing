@@ -70,11 +70,35 @@ async function getRemoteSha() {
   return j.sha;
 }
 
-// { updateAvailable, local, remote } или { error } — не бросает исключений
+// Локальная версия: git HEAD для репозитория, иначе файл .version —
+// его пишет performUpdateAuto после каждого успешного обновления, так что
+// проверка обновлений работает и на ZIP-копиях без git.
+const VERSION_FILE = path.join(ROOT, ".version");
+
+function readVersionFile() {
+  try {
+    return fs.readFileSync(VERSION_FILE, "utf8").trim() || null;
+  } catch {
+    return null;
+  }
+}
+
+function writeVersionFile(sha) {
+  if (!sha) return;
+  try {
+    fs.writeFileSync(VERSION_FILE, sha + "\n");
+  } catch {}
+}
+
+// { updateAvailable, local, remote } | { error } | { versionUnknown, remote }
 export async function checkForUpdates() {
   try {
-    const [local, remote] = await Promise.all([getLocalSha(), getRemoteSha()]);
-    if (!local || !remote) return { error: "git not available / not a git checkout" };
+    const [gitSha, remote] = await Promise.all([getLocalSha(), getRemoteSha()]);
+    const local = gitSha || readVersionFile();
+    if (!local) {
+      // ZIP-установка без .version: версию определить нельзя (но remote известен)
+      return { versionUnknown: true, remote };
+    }
     return { updateAvailable: local.slice(0, 7) !== remote.slice(0, 7), local, remote };
   } catch (e) {
     return { error: e.message };
@@ -93,6 +117,7 @@ export async function performUpdate() {
     const message = pull.stderr || pull.err?.message || "git pull failed";
     return { ok: false, npmDone: false, message };
   }
+  writeVersionFile(await getLocalSha());
 
   let npmDone = false;
   const diff = await run("git", ["diff", "--name-only", "ORIG_HEAD", "HEAD"]);
@@ -155,12 +180,14 @@ async function updateFromZip() {
     fs.mkdirSync(outDir, { recursive: true });
     await extractZip(zipPath, outDir);
 
-    // Внутри zip единственная папка вида User-Repo-<sha>
+    // Внутри zip единственная папка вида User-Repo-<sha> — sha запишем в .version
     const entries = fs.readdirSync(outDir);
     const repoDir = entries.map((e) => path.join(outDir, e)).find((p) => fs.statSync(p).isDirectory());
     if (!repoDir) throw new Error("не нашёл папку репозитория внутри zip");
 
     copyTree(repoDir, ROOT);
+    const zipSha = path.basename(repoDir).replace(/^.*-steam-now-playing-/, "");
+    writeVersionFile(zipSha);
     return { ok: true, npmDone: false, message: "файлы обновлены (зависимости не тронуты)" };
   } finally {
     try {

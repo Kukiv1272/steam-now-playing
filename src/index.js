@@ -144,6 +144,7 @@ async function main() {
   if (process.argv.includes("--check-updates")) {
     const r = await checkForUpdates();
     if (r.error) console.log(`[update] ${t("update_check_failed", { message: r.error })}`);
+    else if (r.versionUnknown) console.log(`[update] ${t("update_version_unknown")}`);
     else if (r.updateAvailable) console.log(`[update] ${t("update_available", { sha: r.remote.slice(0, 7) })}`);
     else console.log(`[update] ${t("update_up_to_date", { sha: r.local.slice(0, 7) })}`);
     return;
@@ -238,6 +239,11 @@ async function main() {
       const r = await checkForUpdates();
       if (r.error) {
         if (verbose) console.log(`[update] ${t("update_check_failed", { message: r.error })}`);
+        return;
+      }
+      if (r.versionUnknown) {
+        // ZIP-установка без .version: версию не определить — подсказка один раз
+        if (verbose) console.log(`[update] ${t("update_version_unknown")}`);
         return;
       }
       if (r.updateAvailable) {
