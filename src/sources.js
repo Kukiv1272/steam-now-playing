@@ -1,4 +1,5 @@
 import { config } from "./config.js";
+import { t } from "./i18n.js";
 import { ProxyAgent } from "undici";
 
 // Unified "now playing" track: { playing, title, artist, album, coverUrl, source }
@@ -59,23 +60,40 @@ async function getLfmDispatcher() {
 }
 
 export async function getNowPlaying() {
-  if (config.statsfm.username) {
+  // 404 от stats.fm (нет такого ника / приватный профиль) не должен спамить
+  // каждый опрос: после 5 подряд ошибок источник отключается до перезапуска
+  // (или до смены STATSFM_USERNAME в .env — хот-релоад включает обратно)
+  if (config.statsfm.username && statsfmDisabledFor !== config.statsfm.username) {
     try {
       const t = await statsfmNowPlaying(config.statsfm.username);
+      statsfmFails = 0;
       if (t) return t; // null = сейчас ничего не играет через stats.fm — пробуем last.fm
     } catch (e) {
-      console.error("[stats.fm]", e.message);
+      statsfmFails++;
+      if (statsfmFails === 1 || statsfmFails % 60 === 0) {
+        // первый раз и потом раз в ~2 минуты — не спамим
+        console.error("[stats.fm]", e.message);
+      }
+      if (/HTTP 404/.test(e.message) && statsfmFails >= 5) {
+        statsfmDisabledFor = config.statsfm.username;
+        console.error(`[stats.fm] ${t("statsfm_disabled", { user: config.statsfm.username })}`);
+      }
     }
   }
   if (config.lastfm.apiKey && config.lastfm.username) {
     try {
       return await lastfmNowPlaying(config.lastfm);
     } catch (e) {
-      console.error("[last.fm]", e.message);
+      lastfmFails++;
+      if (lastfmFails === 1 || lastfmFails % 60 === 0) console.error("[last.fm]", e.message);
     }
   }
   return null;
 }
+
+let statsfmDisabledFor = null;
+let statsfmFails = 0;
+let lastfmFails = 0;
 
 // stats.fm: GET /users/{user}/streams/current
 // item.track.image or item.track.albums[].image — handle several shapes defensively.
