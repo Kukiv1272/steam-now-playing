@@ -145,7 +145,7 @@ async function main() {
     const r = await checkForUpdates();
     if (r.error) console.log(`[update] ${t("update_check_failed", { message: r.error })}`);
     else if (r.updateAvailable) console.log(`[update] ${t("update_available", { sha: r.remote.slice(0, 7) })}`);
-    else console.log(`[update] ${t("update_up_to_date")}`);
+    else console.log(`[update] ${t("update_up_to_date", { sha: r.local.slice(0, 7) })}`);
     return;
   }
 
@@ -229,18 +229,29 @@ async function main() {
     process.exit(0);
   }
 
-  // Проверка обновлений на старте (не блокирует запуск; ошибки молча)
-  const announceUpdate = async () => {
+  // Проверка обновлений на старте — всегда с видимой строкой версии
+  // (не блокирует запуск; сетевые ошибки показываются кратко).
+  // Повторная проверка каждые 6 часов — тихо, только при наличии обновления.
+  const firstCheck = true;
+  const announceUpdate = async (verbose) => {
     try {
       const r = await checkForUpdates();
-      if (!r.error && r.updateAvailable) {
+      if (r.error) {
+        if (verbose) console.log(`[update] ${t("update_check_failed", { message: r.error })}`);
+        return;
+      }
+      if (r.updateAvailable) {
         console.log(`[update] ${t("update_available", { sha: r.remote.slice(0, 7) })}`);
         console.log(`[update] ${t("update_hint")}`);
+      } else if (verbose) {
+        console.log(`[update] ${t("update_up_to_date", { sha: r.local.slice(0, 7) })}`);
       }
-    } catch {}
+    } catch (e) {
+      if (verbose) console.log(`[update] ${t("update_check_failed", { message: e.message })}`);
+    }
   };
-  announceUpdate();
-  setInterval(announceUpdate, 6 * 60 * 60 * 1000).unref?.(); // и раз в 6 часов
+  announceUpdate(firstCheck);
+  setInterval(() => announceUpdate(false), 6 * 60 * 60 * 1000).unref?.(); // и раз в 6 часов
 
   // Одна копия бота: занимаем локальный порт — второй экземпляр сразу выйдет.
   // Два бота на одном аккаунте = война сессий Steam (LogonSessionReplaced).
