@@ -55,6 +55,10 @@ export function writeEnvKey(key, value) {
   fileOwnedKeys.add(key);
 }
 
+// Дефолтный last.fm API key (только публичные данные user.getrecenttracks):
+// пользователю достаточно вписать свой ник — свой ключ получать не обязательно.
+const DEFAULT_LASTFM_API_KEY = "e0fecb0af5822e8ac426410cd8171851";
+
 function buildConfig() {
   return {
     steam: {
@@ -70,7 +74,7 @@ function buildConfig() {
       },
     },
     lastfm: {
-      apiKey: process.env.LASTFM_API_KEY || "",
+      apiKey: process.env.LASTFM_API_KEY || DEFAULT_LASTFM_API_KEY,
       username: process.env.LASTFM_USERNAME || "",
       // Локальный HTTP-прокси (v2rayN/clash) для обхода блокировки last.fm:
       // LASTFM_PROXY=http://127.0.0.1:10809

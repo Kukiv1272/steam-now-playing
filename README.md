@@ -46,7 +46,7 @@ node src/index.js --showcase-slot  # переключить слот витри�
 ## Источники трека
 
 - **stats.fm** — публичный профиль (`STATSFM_USERNAME`), OAuth не нужен
-- **last.fm** — нужен бесплатный API key (`LASTFM_API_KEY` + `LASTFM_USERNAME`)
+- **last.fm** — нужен API key или ник (`LASTFM_USERNAME`); API key встроен в бота, свой не обязателен
 
 Приоритет: stats.fm → last.fm.
 
@@ -93,16 +93,13 @@ npm install
 
 1. **Регистрация**: [last.fm/join](https://www.last.fm/join) — email, ник, пароль. Регистрацию можно пройти и через мобильное приложение last.fm
 2. **Подключи скробблер** — источник треков. Варианты: YouTube Music / Spotify / Яндекс Музыка через браузерное расширение, на телефоне — Pano Scrobbler (Android) или похожий. Без скробблера last.fm не будет знать, что ты слушаешь
-3. **Получи API key** (бесплатно, мгновенно):
-   - Залогинься на last.fm и открой [last.fm/api/account/create](https://www.last.fm/api/account/create)
-   - Форма: `Application name` — любое (например `steam-now-playing`), описание — любое, `Callback URL` — можно `http://localhost`
-   - После создания увидишь **Key** — это и есть твой API key
-4. **Впиши в `.env`**:
+3. **Впиши в `.env` только свой ник** — API key уже встроен в бота:
 
 ```env
-LASTFM_API_KEY=полученный_ключ
 LASTFM_USERNAME=твой_ник_на_last.fm
 ```
+
+> Хочешь свой ключ (на случай лимитов общего)? Получи бесплатно на [last.fm/api/account/create](https://www.last.fm/api/account/create) и впиши в `LASTFM_API_KEY`.
 
 > Если last.fm в твоём регионе заблокирован (403) и работает локальный VPN (v2rayN, clash) — добавь `LASTFM_PROXY=http://127.0.0.1:10809`. Через прокси пойдут только запросы к last.fm.
 
