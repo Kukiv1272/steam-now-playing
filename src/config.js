@@ -108,7 +108,9 @@ function buildConfig() {
       // растягивает картинку на всю ширину витрины (artwall-трюк). Рекомендуется
       // SHOWCASE_TYPE=22 и CARD_WIDTH=2400, CARD_HEIGHT=800.
       wide: process.env.SHOWCASE_WIDE === "true",
-      width: parseInt(process.env.CARD_WIDTH || "630", 10),
+      // Размеры карточки по умолчанию зависят от макета: баннер 2400x800,
+      // вертикальный 630x800. Явные CARD_WIDTH/CARD_HEIGHT в .env побеждают.
+      width: parseInt(process.env.CARD_WIDTH || (process.env.SHOWCASE_WIDE === "true" ? "2400" : "630"), 10),
       height: parseInt(process.env.CARD_HEIGHT || "800", 10),
     },
   };

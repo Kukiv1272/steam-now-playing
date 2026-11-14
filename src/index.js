@@ -31,9 +31,9 @@ let noCoverKey = null;
 let noCoverCount = 0;
 
 function albumKeyOf(track) {
-  // Включаем версию дизайна: после её смены карточки перезаливаются,
-  // а старые арты подчищаются — витрина не залипает на устаревшем рендере
-  return `${track.artist || ""}||${track.album || ""}||${track.coverUrl || ""}||${CARD_VERSION}`.toLowerCase();
+  // Включаем версию дизайна И макет (wide/portrait): после их смены карточки
+  // перезаливаются, а старые арты подчищаются — витрина не залипает
+  return `${track.artist || ""}||${track.album || ""}||${track.coverUrl || ""}||${CARD_VERSION}|wide=${config.showcase.wide}`.toLowerCase();
 }
 
 function formatStatus(track) {
