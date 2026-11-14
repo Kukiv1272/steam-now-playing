@@ -18,7 +18,8 @@ async function getLfmDispatcher() {
 export async function getNowPlaying() {
   if (config.statsfm.username) {
     try {
-      return await statsfmNowPlaying(config.statsfm.username);
+      const t = await statsfmNowPlaying(config.statsfm.username);
+      if (t) return t; // null = сейчас ничего не играет через stats.fm — пробуем last.fm
     } catch (e) {
       console.error("[stats.fm]", e.message);
     }
