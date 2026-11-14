@@ -17,6 +17,16 @@ import { ensureLanguage, ensureNicknames } from "./first-run.js";
 import fs from "node:fs";
 import net from "node:net";
 
+// form-data@2.3.3 (тянется через steamcommunity -> request) всё ещё вызывает
+// deprecated util.isArray — Node 22+ пишет DEP0044 прямо посреди лога заливки
+// арта. Предупреждение безвредное (пакет рабочий, просто старый), поэтому
+// глушим только его, остальные предупреждения оставляем видимыми.
+process.removeAllListeners("warning");
+process.on("warning", (w) => {
+  if (w.code === "DEP0044") return;
+  console.warn(`${w.name}: ${w.message}`);
+});
+
 const startedAt = Date.now();
 let lastStateKey = null;
 let lastShowcaseAt = 0;
