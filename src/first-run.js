@@ -69,8 +69,37 @@ export async function ensureNicknames() {
       }
       // Если пропущено, но ключ уже есть со значением — не трогаем
     }
+    await askShowcaseType(rl);
     writeEnvKey("SETUP_DONE", "true");
   } finally {
     rl.close();
+  }
+}
+
+// Выбор типа витрины: 22 = избранная иллюстрация (одна большая),
+// 13 = витрина иллюстраций (2x2). Enter — пропустить (остаётся как есть).
+// rl передаётся параметром — тестируется с фейковым интерфейсом.
+export async function askShowcaseType(rl) {
+  console.log(t("showcase_type_prompt_title"));
+  console.log(t("showcase_type_opt_featured"));
+  console.log(t("showcase_type_opt_artwork"));
+  for (;;) {
+    const answer = (await rl.question("1/2: ")).trim().toLowerCase();
+    if (!answer) {
+      console.log(t("showcase_type_skipped"));
+      return null;
+    }
+    if (answer === "1" || answer === "22") {
+      writeEnvKey("SHOWCASE_TYPE", "22");
+      console.log(t("showcase_type_saved", { value: 22 }));
+      console.log(t("showcase_wide_hint"));
+      return 22;
+    }
+    if (answer === "2" || answer === "13") {
+      writeEnvKey("SHOWCASE_TYPE", "13");
+      console.log(t("showcase_type_saved", { value: 13 }));
+      return 13;
+    }
+    console.log(t("showcase_type_invalid"));
   }
 }

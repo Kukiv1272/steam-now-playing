@@ -72,6 +72,13 @@ const dicts = {
     nickname_statsfm_prompt: "Ник на stats.fm (Enter — пропустить): ",
     nickname_saved: "Сохранено: {key}={value}",
     nickname_left_empty: "Оставлено пустым: {key}",
+    showcase_type_prompt_title: "Какая витрина стоит на профиле?",
+    showcase_type_opt_featured: "  1) Избранная иллюстрация (одна большая)",
+    showcase_type_opt_artwork: "  2) Витрина иллюстраций (2x2)",
+    showcase_type_saved: "Витрина: {value}",
+    showcase_type_skipped: "Тип витрины оставлен как есть",
+    showcase_type_invalid: "Введите 1 или 2",
+    showcase_wide_hint: "  Подсказка: широкий баннер включается в .env — SHOWCASE_WIDE=true",
   },
   en: {
     menu_title: "=== How to log in to Steam? ===",
@@ -145,6 +152,13 @@ const dicts = {
     nickname_statsfm_prompt: "Your stats.fm nickname (Enter — skip): ",
     nickname_saved: "Saved: {key}={value}",
     nickname_left_empty: "Left empty: {key}",
+    showcase_type_prompt_title: "Which showcase is on your profile?",
+    showcase_type_opt_featured: "  1) Featured artwork (one big)",
+    showcase_type_opt_artwork: "  2) Artwork showcase (2x2)",
+    showcase_type_saved: "Showcase: {value}",
+    showcase_type_skipped: "Showcase type left as is",
+    showcase_type_invalid: "Enter 1 or 2",
+    showcase_wide_hint: "  Hint: the wide banner is enabled in .env — SHOWCASE_WIDE=true",
   },
 };
 
