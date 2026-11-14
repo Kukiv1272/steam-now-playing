@@ -156,7 +156,7 @@ export async function generateCard(track) {
   if (config.showcase.wide) {
     drawBannerContent(ctx, track, img, W, H);
   } else {
-    drawPortraitContent(ctx, img, W, H);
+    drawPortraitContent(ctx, track, img, W, H);
   }
 
   return canvas.toBuffer("image/png");
@@ -205,7 +205,7 @@ function drawBackdrop(ctx, img, W, H) {
 
 // Вертикальная карточка: квадратная обложка ЦЕЛИКОМ (без кропа),
 // закруглённые углы, тень, текст внизу
-function drawPortraitContent(ctx, img, W, H) {
+function drawPortraitContent(ctx, track, img, W, H) {
   const margin = Math.round(W * 0.065);
   const S = W - margin * 2; // сторона квадрата
   const x = margin;
