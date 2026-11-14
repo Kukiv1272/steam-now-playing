@@ -36,6 +36,25 @@ function applyEnvFile() {
   return changed;
 }
 
+// Обновляет KEY=value в .env (или дописывает в конец). Используется для
+// сохранения выбора, сделанного в консоли при первом запуске (язык).
+export function writeEnvKey(key, value) {
+  let text = "";
+  try {
+    text = fs.readFileSync(ENV_URL, "utf8");
+  } catch {}
+  const line = `${key}=${value}`;
+  const re = new RegExp(`^\\s*${key}\\s*=.*$`, "m");
+  if (re.test(text)) {
+    text = text.replace(re, line);
+  } else {
+    text = text ? text.replace(/\r?\n$/, "") + "\n" + line + "\n" : line + "\n";
+  }
+  fs.writeFileSync(ENV_URL, text);
+  process.env[key] = value; // применяем сразу, без ожидания вотчера
+  fileOwnedKeys.add(key);
+}
+
 function buildConfig() {
   return {
     steam: {

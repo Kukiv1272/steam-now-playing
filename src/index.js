@@ -12,6 +12,7 @@ import {
   reqRetry,
 } from "./showcase.js";
 import { t } from "./i18n.js";
+import { ensureLanguage } from "./first-run.js";
 import fs from "node:fs";
 
 const startedAt = Date.now();
@@ -21,6 +22,11 @@ let lastShowcaseAt = 0;
 // арт заново, а переиспользуем существующий fileId (быстрее и меньше 429)
 let currentFileId = null;
 let currentAlbumKey = null;
+// Обложки может не быть нигде (last.fm вернул заглушку, iTunes не нашёл):
+// ретраим несколько кругов (источник мог не успеть отдать), потом рисуем
+// карточку на градиенте — витрина не должна залипать на старом треке
+let noCoverKey = null;
+let noCoverCount = 0;
 
 function albumKeyOf(track) {
   return `${track.artist || ""}||${track.album || ""}||${track.coverUrl || ""}`.toLowerCase();
@@ -36,10 +42,20 @@ function formatStatus(track) {
 
 async function updateShowcase(track) {
   const now = Date.now();
-  // Обложки ещё нет (источник не успел отдать) — не съедаем интервал, ретраим позже
+  // Обложка может ещё не успеть появиться в источнике — ретраим пару кругов.
+  // Если её нет нигде — продолжаем: getCard нарисует градиент без обложки.
   if (!track.coverUrl) {
-    console.log(`[showcase] ${t("showcase_no_cover")}`);
-    return "retry";
+    const key = `${track.artist}|${track.title}`.toLowerCase();
+    if (key !== noCoverKey) {
+      noCoverKey = key;
+      noCoverCount = 0;
+    }
+    noCoverCount++;
+    if (noCoverCount === 1) console.log(`[showcase] ${t("showcase_no_cover")}`);
+    if (noCoverCount < 5) return "retry";
+  } else {
+    noCoverKey = null;
+    noCoverCount = 0;
   }
   if (now - lastShowcaseAt < config.showcase.minIntervalMs) return "retry";
   lastShowcaseAt = now;
@@ -109,6 +125,7 @@ async function clearShowcase() {
 }
 
 async function main() {
+  await ensureLanguage(); // первый запуск: выбор языка (ru/en) -> сохраняется в .env
   const runOnce = process.argv.includes("--once");
 
   if (process.argv.includes("--check-sources")) {
