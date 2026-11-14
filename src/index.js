@@ -13,7 +13,7 @@ import {
 } from "./showcase.js";
 import { t } from "./i18n.js";
 import { checkForUpdates, performUpdateAuto } from "./updater.js";
-import { ensureLanguage } from "./first-run.js";
+import { ensureLanguage, ensureNicknames } from "./first-run.js";
 import fs from "node:fs";
 import net from "node:net";
 
@@ -130,6 +130,7 @@ async function clearShowcase() {
 
 async function main() {
   await ensureLanguage(); // первый запуск: выбор языка (ru/en) -> сохраняется в .env
+  await ensureNicknames(); // первый запуск: ники last.fm/stats.fm (Enter — пропустить)
   const runOnce = process.argv.includes("--once");
 
   // Проверка обновлений: сравнить HEAD с GitHub и выйти

@@ -55,6 +55,18 @@ export function writeEnvKey(key, value) {
   fileOwnedKeys.add(key);
 }
 
+// Есть ли строка KEY= в .env (даже пустая)? Для мастера первого запуска:
+// если пользователь пропустил поле, повторно не спрашиваем.
+export function envKeyExists(key) {
+  let text = "";
+  try {
+    text = fs.readFileSync(ENV_URL, "utf8");
+  } catch {
+    return false;
+  }
+  return new RegExp(`^\\s*${key}\\s*=`, "m").test(text);
+}
+
 // Дефолтный last.fm API key (только публичные данные user.getrecenttracks):
 // пользователю достаточно вписать свой ник — свой ключ получать не обязательно.
 const DEFAULT_LASTFM_API_KEY = "e0fecb0af5822e8ac426410cd8171851";

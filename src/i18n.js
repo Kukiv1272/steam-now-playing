@@ -67,6 +67,10 @@ const dicts = {
     update_done_npm: "Зависимости обновлены (npm install)",
     update_failed: "Обновление не удалось: {message}",
     already_running: "Бот уже запущен — второй экземпляр не нужен (два бота воюют за сессию Steam). Закрой это окно",
+    nickname_lastfm_prompt: "Ник на last.fm (Enter — пропустить): ",
+    nickname_statsfm_prompt: "Ник на stats.fm (Enter — пропустить): ",
+    nickname_saved: "Сохранено: {key}={value}",
+    nickname_left_empty: "Оставлено пустым: {key}",
   },
   en: {
     menu_title: "=== How to log in to Steam? ===",
@@ -135,6 +139,10 @@ const dicts = {
     update_done_npm: "Dependencies updated (npm install)",
     update_failed: "Update failed: {message}",
     already_running: "Bot is already running — a second instance is not needed (two bots fight over the Steam session). Close this window",
+    nickname_lastfm_prompt: "Your last.fm nickname (Enter — skip): ",
+    nickname_statsfm_prompt: "Your stats.fm nickname (Enter — skip): ",
+    nickname_saved: "Saved: {key}={value}",
+    nickname_left_empty: "Left empty: {key}",
   },
 };
 

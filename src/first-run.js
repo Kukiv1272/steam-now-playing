@@ -3,7 +3,8 @@
 // Неинтерактивные запуски (--once в планировщике, скрипты) не спрашивают:
 // берётся русский по умолчанию, ничего не сохраняется.
 import readline from "node:readline/promises";
-import { writeEnvKey } from "./config.js";
+import { writeEnvKey, envKeyExists } from "./config.js";
+import { t } from "./i18n.js";
 
 export async function ensureLanguage() {
   if (process.env.LANG && process.env.LANG.trim()) return; // уже выбран
@@ -41,4 +42,35 @@ export async function ensureLanguage() {
       ? "Язык сохранён: русский (сменить можно в .env — LANG=en)"
       : "Language saved: English (change in .env — LANG=ru)",
   );
+}
+
+// Ввод ников источников: last.fm и stats.fm. Enter — пропустить, поле
+// остаётся пустым в .env. Мастер срабатывает один раз (маркер SETUP_DONE).
+// Уже заполненные поля при пропуске не затираются.
+export async function ensureNicknames() {
+  if (!process.stdin.isTTY || !process.stdout.isTTY) return; // неинтерактивный запуск — не спрашиваем
+  if (envKeyExists("SETUP_DONE")) return; // мастер уже проходили
+
+  const fields = [
+    ["LASTFM_USERNAME", "nickname_lastfm_prompt"],
+    ["STATSFM_USERNAME", "nickname_statsfm_prompt"],
+  ];
+
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+  try {
+    for (const [key, promptKey] of fields) {
+      const answer = (await rl.question(t(promptKey))).trim();
+      if (answer) {
+        writeEnvKey(key, answer);
+        console.log(t("nickname_saved", { key, value: answer }));
+      } else if (!envKeyExists(key)) {
+        writeEnvKey(key, ""); // поле остаётся пустым в .env
+        console.log(t("nickname_left_empty", { key }));
+      }
+      // Если пропущено, но ключ уже есть со значением — не трогаем
+    }
+    writeEnvKey("SETUP_DONE", "true");
+  } finally {
+    rl.close();
+  }
 }
