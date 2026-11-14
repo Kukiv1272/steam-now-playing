@@ -103,7 +103,10 @@ function buildConfig() {
       enabled: process.env.SHOWCASE_ENABLED === "true",
       minIntervalMs: parseInt(process.env.SHOWCASE_MIN_INTERVAL_MS || "60000", 10),
       type: parseInt(process.env.SHOWCASE_TYPE || "13", 10), // 13 = иллюстрации 2x2, 22 = избранная иллюстрация
-      slot: parseInt(process.env.SHOWCASE_SLOT || "0", 10), // слот/ячейка внутри витрины
+      slot: parseInt(process.env.SHOWCASE_SLOT || "0", 10), // номер витрины на профиле (с нуля)
+      // Убирать карточку из «Иллюстраций» при закрытии бота (Ctrl+C / закрытие
+      // окна). false — оставить арт в галерее и на витрине после выхода.
+      clearOnExit: process.env.SHOWCASE_CLEAR_ON_EXIT !== "false",
       // Ориентация карточки в витрине:
       //   wide     — растянуть по всей ширине (image_width=999999/image_height=1)
       //   vertical — растянуть по всей высоте (image_width=1/image_height=999999)

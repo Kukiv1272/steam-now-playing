@@ -79,11 +79,19 @@ if not "%~1"=="" (
 )
 
 rem --- Normal run: bot keeps going; if it crashes it restarts in 5 seconds ---
+rem Exit code 0 = clean shutdown (Ctrl+C or closed window): do not restart.
 rem (ping delay instead of "timeout" - timeout fails with redirected stdin)
 :loop
 node src/index.js
+if errorlevel 1 goto crashed
 echo.
-echo Bot stopped (%date% %time%). Restarting in 5s - close this window or press Ctrl+C to quit.
+echo Bot stopped cleanly. Closing in 5s - press Ctrl+C to keep this window open.
+ping -n 6 127.0.0.1 >nul
+goto :eof
+
+:crashed
+echo.
+echo Bot crashed (%date% %time%). Restarting in 5s - close this window or press Ctrl+C to quit.
 ping -n 6 127.0.0.1 >nul
 goto loop
 

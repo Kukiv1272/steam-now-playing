@@ -348,6 +348,38 @@ async function main() {
       await new Promise((r) => setTimeout(r, Math.max(1000, config.pollMs)));
     }
   };
+  // Аккуратное завершение: Ctrl+C (SIGINT) и закрытие окна консоли на Windows
+  // (Node присылает SIGHUP). Убираем карточку из «Иллюстраций», чтобы в профиле
+  // не висел последний трек. Windows даёт на закрытие окна ~5 секунд, поэтому
+  // ждём максимум 8с и не сканируем галерею повторно.
+  let shuttingDown = false;
+  const shutdown = async (signal) => {
+    if (shuttingDown) return;
+    shuttingDown = true;
+    console.log(`\n[main] ${t("shutdown_start", { signal })}`);
+    try {
+      if (!config.showcase.enabled) {
+        // витрина выключена — чистить нечего
+      } else if (!config.showcase.clearOnExit) {
+        console.log(`[main] ${t("shutdown_keep_art")}`);
+      } else {
+        await Promise.race([
+          clearShowcase(),
+          new Promise((_, reject) => setTimeout(() => reject(new Error(t("shutdown_timeout"))), 8000)),
+        ]);
+      }
+    } catch (e) {
+      console.error(`[main] ${t("shutdown_failed", { message: e.message })}`);
+    }
+    console.log(`[main] ${t("shutdown_done")}`);
+    // Даём stdout дописаться (при перенаправлении вывод асинхронный)
+    await new Promise((r) => setTimeout(r, 150));
+    process.exit(0);
+  };
+  for (const signal of ["SIGINT", "SIGTERM", "SIGHUP", "SIGBREAK"]) {
+    process.on(signal, () => shutdown(signal));
+  }
+
   pollLoop();
 
   console.log(`[main] ${t("polling", { ms: config.pollMs, date: new Date(startedAt).toISOString() })}`);
