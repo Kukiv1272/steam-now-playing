@@ -136,11 +136,17 @@ async function statsfmNowPlaying(username) {
     (Array.isArray(track.albums) ? track.albums.map((a) => a.image).find(Boolean) : null) ||
     item.image ||
     null;
+  // Альбом: в stats.fm API это albums[0].name (albumName встречается в старых
+  // ответах/других эндпоинтах, поэтому оставляем как первый вариант)
+  const album =
+    track.albumName ||
+    (Array.isArray(track.albums) ? track.albums.map((a) => a.name).find(Boolean) : null) ||
+    "";
   return {
     playing: item.isPlaying === true,
     title: track.name || "",
     artist: artists.join(", "),
-    album: track.albumName || "",
+    album,
     coverUrl,
     source: "stats.fm",
   };

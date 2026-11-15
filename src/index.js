@@ -30,8 +30,9 @@ process.on("warning", (w) => {
 const startedAt = Date.now();
 let lastStateKey = null;
 let lastShowcaseAt = 0;
-// Дедупликация по альбому: если трек из уже залитого альбома — не заливаем
-// арт заново, а переиспользуем существующий fileId (быстрее и меньше 429)
+// Дедупликация карточек: если этот же ключ уже налит — не заливаем арт
+// заново, а переиспользуем существующий fileId (быстрее и меньше 429).
+// Ключ считает cardKeyOf(): по треку (по умолчанию) или по альбому.
 let currentFileId = null;
 let currentAlbumKey = null;
 // Обложки может не быть нигде (last.fm вернул заглушку, iTunes не нашёл):
@@ -40,10 +41,18 @@ let currentAlbumKey = null;
 let noCoverKey = null;
 let noCoverCount = 0;
 
-function albumKeyOf(track) {
-  // Включаем версию дизайна И ориентацию (wide/vertical/none): после их
-  // смены карточки перезаливаются, а старые арты подчищаются — витрина не залипает
-  return `${track.artist || ""}||${track.album || ""}||${track.coverUrl || ""}||${CARD_VERSION}|stretch=${config.showcase.stretch}`.toLowerCase();
+// Ключ карточки для дедупликации. По умолчанию — по треку: на картинке
+// напечатано название, поэтому ключ обязан включать трек, иначе витрина
+// залипает на первом треке альбома. SHOWCASE_DEDUP=album возвращает старое
+// поведение (реже заливки, но название на карточке может отставать).
+function cardKeyOf(track) {
+  // Версия дизайна и ориентация тоже в ключе: после их смены карточки
+  // перезаливаются, а старые арты подчищаются — витрина не залипает
+  const scope =
+    config.showcase.dedup === "album"
+      ? `${track.artist || ""}||${track.album || ""}`
+      : `${track.artist || ""}||${track.album || ""}||${track.title || ""}`;
+  return `${scope}||${track.coverUrl || ""}||${CARD_VERSION}|stretch=${config.showcase.stretch}`.toLowerCase();
 }
 
 function formatStatus(track) {
@@ -81,28 +90,28 @@ async function updateShowcase(track) {
   if (now - lastShowcaseAt < config.showcase.minIntervalMs) return "retry";
   lastShowcaseAt = now;
 
-  const albumKey = albumKeyOf(track);
+  const cardKey = cardKeyOf(track);
 
   try {
-    // Тот же альбом, что уже на витрине — арт не трогаем вовсе
-    if (currentFileId && albumKey === currentAlbumKey) {
+    // Тот же трек, что уже на витрине — арт не трогаем вовсе
+    if (currentFileId && cardKey === currentAlbumKey) {
       console.log(`[showcase] ${t("showcase_album_reuse")}`);
       return "ok";
     }
 
-    // Тот же альбом, но заливали в прошлой сессии — ищем арт в галерее
-    const existing = await findArtworkByAlbum(steamCommunity, albumKey);
+    // Этот трек уже заливали в прошлой сессии — ищем арт в галерее
+    const existing = await findArtworkByAlbum(steamCommunity, cardKey);
     if (existing) {
       await saveShowcase(steamCommunity, existing, config.showcase.type, config.showcase.slot);
       console.log(`[showcase] ${t("showcase_album_reuse_found", { id: existing })}`);
       currentFileId = existing;
-      currentAlbumKey = albumKey;
+      currentAlbumKey = cardKey;
       return "ok";
     }
 
     const png = await getCard(track); // кэш: повторный трек не рендерится и не качается
     console.log(`[showcase] ${t("showcase_uploading")}`);
-    uploadShowcaseArtwork._albumKey = albumKey; // подпись арта ключом альбома
+    uploadShowcaseArtwork._albumKey = cardKey; // подпись арта ключом карточки
     const fileId = await uploadShowcaseArtwork(steamCommunity, png);
     delete uploadShowcaseArtwork._albumKey;
     console.log(`[showcase] ${t("showcase_uploaded", { id: fileId })}`);
@@ -110,7 +119,7 @@ async function updateShowcase(track) {
     await saveShowcase(steamCommunity, fileId, config.showcase.type, config.showcase.slot);
     console.log(`[showcase] ${t("showcase_updated")}`);
     currentFileId = fileId;
-    currentAlbumKey = albumKey;
+    currentAlbumKey = cardKey;
     // Чистим прошлые карточки — в галерее остаётся только актуальная
     const deleted = await cleanupOldArtworks(steamCommunity, fileId);
     if (deleted > 0) console.log(`[showcase] ${t("showcase_cleanup_done", { count: deleted })}`);
