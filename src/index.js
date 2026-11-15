@@ -150,13 +150,14 @@ async function main() {
   await ensureNicknames(); // первый запуск: ники last.fm/stats.fm (Enter — пропустить)
   const runOnce = process.argv.includes("--once");
 
-  // Проверка обновлений: сравнить HEAD с GitHub и выйти
+  // Проверка обновлений: сравнить локальную версию с последним релизом и выйти
   if (process.argv.includes("--check-updates")) {
     const r = await checkForUpdates();
+    const version = r.version ? `${r.version} (${r.remote.slice(0, 7)})` : r.remote.slice(0, 7);
     if (r.error) console.log(`[update] ${t("update_check_failed", { message: r.error })}`);
     else if (r.versionUnknown) console.log(`[update] ${t("update_version_unknown")}`);
-    else if (r.updateAvailable) console.log(`[update] ${t("update_available", { sha: r.remote.slice(0, 7) })}`);
-    else console.log(`[update] ${t("update_up_to_date", { sha: r.local.slice(0, 7) })}`);
+    else if (r.updateAvailable) console.log(`[update] ${t("update_available", { version })}`);
+    else console.log(`[update] ${t("update_up_to_date", { version })}`);
     return;
   }
 
@@ -256,11 +257,12 @@ async function main() {
         if (verbose) console.log(`[update] ${t("update_version_unknown")}`);
         return;
       }
+      const version = r.version ? `${r.version} (${r.remote.slice(0, 7)})` : r.remote.slice(0, 7);
       if (r.updateAvailable) {
-        console.log(`[update] ${t("update_available", { sha: r.remote.slice(0, 7) })}`);
+        console.log(`[update] ${t("update_available", { version })}`);
         console.log(`[update] ${t("update_hint")}`);
       } else if (verbose) {
-        console.log(`[update] ${t("update_up_to_date", { sha: r.local.slice(0, 7) })}`);
+        console.log(`[update] ${t("update_up_to_date", { version })}`);
       }
     } catch (e) {
       if (verbose) console.log(`[update] ${t("update_check_failed", { message: e.message })}`);

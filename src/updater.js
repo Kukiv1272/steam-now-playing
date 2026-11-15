@@ -3,6 +3,8 @@
 // - zip-режим (скачан архив, git отсутствует): ZIP с GitHub,
 //   распаковка через PowerShell Expand-Archive, замена файлов.
 //   Сохраняются: .env, tokens.json, cache/, node_modules, bot.log.
+// Версии сверяются по GitHub Releases: последний релиз -> коммит его тега.
+// Если релизов ещё нет — сравниваем с HEAD ветки, как раньше.
 // GitHub API может быть заблокирован в регионе — используется локальный
 // прокси: UPDATE_PROXY, а если не задан — тот же, что для last.fm.
 import { execFile } from "node:child_process";
@@ -11,6 +13,7 @@ import path from "node:path";
 import fs from "node:fs";
 import os from "node:os";
 import { config } from "./config.js";
+import { t } from "./i18n.js";
 
 const REPO = "Kukiv1272/steam-now-playing";
 const ROOT = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
@@ -29,6 +32,27 @@ const PRESERVE = new Set([
 
 function proxy() {
   return process.env.UPDATE_PROXY || config.lastfm.proxy || "";
+}
+
+// GET к api.github.com с User-Agent и прокси
+async function gh(pathname, opts = {}) {
+  const headers = {
+    "User-Agent": "steam-now-playing",
+    Accept: "application/vnd.github+json",
+    ...opts.headers,
+  };
+  const p = proxy();
+  if (p) {
+    const { ProxyAgent } = await import("undici");
+    opts.dispatcher = new ProxyAgent(p);
+  }
+  const res = await fetch(`https://api.github.com${pathname}`, {
+    ...opts,
+    headers,
+    signal: opts.signal || AbortSignal.timeout(15000),
+  });
+  if (!res.ok) throw new Error(`GitHub API HTTP ${res.status}`);
+  return res.json();
 }
 
 function run(cmd, args) {
@@ -55,19 +79,35 @@ async function getLocalSha() {
 }
 
 async function getRemoteSha() {
-  const opts = {
-    headers: { "User-Agent": "steam-now-playing", Accept: "application/vnd.github+json" },
-    signal: AbortSignal.timeout(15000),
-  };
-  const p = proxy();
-  if (p) {
-    const { ProxyAgent } = await import("undici");
-    opts.dispatcher = new ProxyAgent(p);
-  }
-  const res = await fetch(`https://api.github.com/repos/${REPO}/commits/HEAD`, opts);
-  if (!res.ok) throw new Error(`GitHub API HTTP ${res.status}`);
-  const j = await res.json();
+  const j = await gh("/repos/" + REPO + "/commits/HEAD");
   return j.sha;
+}
+
+// Последний релиз: { tag, sha, zipballUrl } | null, если релизов ещё нет.
+// sha — коммит, на который указывает тег релиза: именно коммиты удобно
+// сравнивать (git-копия знает HEAD-sha, ZIP-копия хранит sha в .version).
+async function getLatestRelease() {
+  let rel;
+  try {
+    rel = await gh(`/repos/${REPO}/releases/latest`);
+  } catch (e) {
+    if (/HTTP 404/.test(e.message)) return null; // релизов ещё не было
+    throw e;
+  }
+  const tag = rel.tag_name;
+  let sha = null;
+  try {
+    const commit = await gh(`/repos/${REPO}/commits/${encodeURIComponent(tag)}`);
+    sha = commit.sha;
+  } catch {}
+  return { tag, sha, zipballUrl: rel.zipball_url };
+}
+
+// Ушла ли локальная HEAD вперёд указанного коммита (коммит запушен, а релиз
+// ещё не выпущен) — это не "доступно обновление". Для ZIP-копий не применимо.
+async function isAncestor(sha) {
+  const r = await run("git", ["merge-base", "--is-ancestor", sha, "HEAD"]);
+  return r.ok; // exit 0 = коммит уже есть в локальной истории
 }
 
 // Локальная версия: git HEAD для репозитория, иначе файл .version —
@@ -90,16 +130,30 @@ function writeVersionFile(sha) {
   } catch {}
 }
 
-// { updateAvailable, local, remote } | { error } | { versionUnknown, remote }
+// { updateAvailable, local, remote, version } | { error } | { versionUnknown, remote, version }
+// version — тег последнего релиза (null, если релизов ещё нет).
 export async function checkForUpdates() {
   try {
-    const [gitSha, remote] = await Promise.all([getLocalSha(), getRemoteSha()]);
+    const gitSha = await getLocalSha();
     const local = gitSha || readVersionFile();
-    if (!local) {
-      // ZIP-установка без .version: версию определить нельзя (но remote известен)
-      return { versionUnknown: true, remote };
+    const release = await getLatestRelease();
+
+    // Релизов ещё нет — сверяемся с HEAD ветки, как раньше
+    if (!release || !release.sha) {
+      const remote = await getRemoteSha();
+      if (!local) return { versionUnknown: true, remote, version: null };
+      return { updateAvailable: local.slice(0, 7) !== remote.slice(0, 7), local, remote, version: null };
     }
-    return { updateAvailable: local.slice(0, 7) !== remote.slice(0, 7), local, remote };
+
+    const { tag, sha: remote } = release;
+    if (!local) return { versionUnknown: true, remote, version: tag };
+
+    // git-копия: HEAD уже содержит релизный коммит (стоит на нём или ушла
+    // вперёд — коммиты запушены, релиз ещё не выпущен) — обновление не нужно
+    if (gitSha && (await isAncestor(remote))) {
+      return { updateAvailable: false, local, remote, version: tag };
+    }
+    return { updateAvailable: local.slice(0, 7) !== remote.slice(0, 7), local, remote, version: tag };
   } catch (e) {
     return { error: e.message };
   }
@@ -133,8 +187,9 @@ export async function performUpdate() {
 
 // ============ ZIP-режим (без git) ============
 
-// Скачивает ZIP дефолтной ветки через прокси (follows redirect с api.github.com)
-async function downloadZip() {
+// Скачивает ZIP: релиза (если есть) или дефолтной ветки (fallback).
+// zipball_url релиза — абсолютная ссылка на api.github.com, редиректит сам.
+async function downloadZip(release) {
   const opts = {
     headers: { "User-Agent": "steam-now-playing" },
     signal: AbortSignal.timeout(60000),
@@ -144,7 +199,8 @@ async function downloadZip() {
     const { ProxyAgent } = await import("undici");
     opts.dispatcher = new ProxyAgent(p);
   }
-  const res = await fetch(`https://api.github.com/repos/${REPO}/zipball`, opts);
+  const url = release?.zipballUrl || `https://api.github.com/repos/${REPO}/zipball`;
+  const res = await fetch(url, opts);
   if (!res.ok) throw new Error(`GitHub HTTP ${res.status}`);
   return Buffer.from(await res.arrayBuffer());
 }
@@ -172,7 +228,9 @@ function copyTree(src, dest) {
 async function updateFromZip() {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "snp-update-"));
   try {
-    const zip = await downloadZip();
+    // Релиз есть — качаем его ZIP; нет — дефолтную ветку (как раньше)
+    const release = await getLatestRelease().catch(() => null);
+    const zip = await downloadZip(release);
     const zipPath = path.join(tmp, "repo.zip");
     fs.writeFileSync(zipPath, zip);
 
@@ -188,7 +246,13 @@ async function updateFromZip() {
     copyTree(repoDir, ROOT);
     const zipSha = path.basename(repoDir).replace(/^.*-steam-now-playing-/, "");
     writeVersionFile(zipSha);
-    return { ok: true, npmDone: false, message: "файлы обновлены (зависимости не тронуты)" };
+    return {
+      ok: true,
+      npmDone: false,
+      message: release?.tag
+        ? t("update_zip_done_tag", { version: release.tag })
+        : t("update_zip_done"),
+    };
   } finally {
     try {
       fs.rmSync(tmp, { recursive: true, force: true });
