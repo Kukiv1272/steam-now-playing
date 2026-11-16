@@ -1,0 +1,70 @@
+# Тексты меню start-bot.bat: русский. UTF-8, формат KEY=value, одна строка — один текст.
+# Загружаются подпрограммой :load_strings; язык берётся из LANG= в .env (ru|en).
+# Строки, начинающиеся с #, — комментарии. Внутри ( ) блоков батника нельзя
+# использовать тексты со скобками — они разорвут парсер cmd.
+L_BOT=Бот
+L_RUNNING=[РАБОТАЕТ]
+L_STOPPED=[ОСТАНОВЛЕН]
+L_SHOWCASE=Витрина
+L_SOURCES=Источники
+L_SEC_SERVICE=СЛУЖБА
+L_OPT_START=1. Запустить бота         (фоновое окно, лог: bot.log)
+L_OPT_REMOVE=2. Остановить бота        (плавный стоп + чистка арта)
+L_OPT_LOG=3. Смотреть лог           (живой, 0 = назад)
+L_SEC_SETTINGS=НАСТРОЙКИ
+L_OPT_SETTINGS=4. Настройки              (переключатели, в .env)
+L_SEC_DIAG=ДИАГНОСТИКА
+L_OPT_SOURCES=5. Что играет сейчас      (JSON)
+L_OPT_CARD=6. Залить карточку        (нужен вход в Steam)
+L_OPT_SITES=7. Проверка доступности сайтов
+L_SEC_UPDATES=ОБНОВЛЕНИЯ
+L_OPT_CHECK=8. Проверить обновления   (предложит установить)
+L_SEC_CONFIG=КОНФИГ
+L_OPT_ENV_EDIT=9. Править .env           (в Блокноте)
+L_OPT_EXIT=0. Выход
+L_PROMPT_MAIN=Выбери пункт (0-9):
+L_ALREADY_RUNNING=Бот уже запущен.
+L_STARTING=Запускаю бота в фоновом окне (лог: bot.log)...
+L_START_FAILED=Бот сразу завершился — смотри лог, пункт 3.
+L_STARTED=Бот запущен.
+L_STOP_SIGNAL=Сигнал остановки отправлен — жду плавного завершения (чистка арта)...
+L_FORCE_KILL=Всё ещё работает — останавливаю принудительно...
+L_STOPPED_MSG=Бот остановлен.
+L_NOT_RUNNING=Бот не запущен.
+L_SET_TITLE=НАСТРОЙКИ  (пишутся в .env, хот-релоад применит без перезапуска)
+L_SET_LANG=1. Язык
+L_SET_SHOWCASE=2. Витрина
+L_SET_TYPE=3. Тип витрины
+L_SET_STRETCH=4. Ориентация карточки
+L_SET_CLEAR=5. Чистка при выходе
+L_SET_DEDUP=6. Дедупликация
+L_SET_LFM=7. Ник last.fm
+L_SET_SFM=8. Ник stats.fm
+L_SET_BACK=0. Назад
+L_PROMPT_SET=Выбери настройку (0-8):
+L_ON=вкл
+L_OFF=выкл
+L_TYPE22=избранная 22
+L_TYPE13=иллюстрации 13
+L_DEDUP_TRACK=трек
+L_DEDUP_ALBUM=альбом
+L_NOT_SET=(не задан)
+L_SAVED=Сохранено. Хот-релоад применит без перезапуска.
+L_NICK_LFM=Новый ник last.fm (Enter = оставить):
+L_NICK_SFM=Новый ник stats.fm (Enter = оставить):
+L_LOG_MISSING=bot.log не найден — бот ещё не запускался.
+L_PRESS_KEY=Нажми любую клавишу для возврата в меню...
+L_LOG_TAIL==== bot.log — последние 25 строк ===
+L_LOG_LIVE==== bot.log — живой просмотр, последние 25 строк ===
+L_LOG_REFRESH=[автообновление 2с]   0 = назад в меню
+L_DONE=Готово. Нажми любую клавишу для возврата в меню...
+L_UPDATE_PROMPT=Обновить сейчас? (Y/N):
+L_CHECK=[проверка]
+L_DEPS_OK=зависимости OK
+L_ERR_NODE_VER=[ОШИБКА] Нужен Node.js 18 или новее, найден
+L_ERR_NODE_LTS=Скачай LTS: https://nodejs.org/
+L_ERR_FOLDER=[ОШИБКА] start-bot.bat должен лежать в папке проекта.
+L_SETUP_ENV=[настройка] Создан .env из .env.example
+L_SETUP_NPM=[настройка] Устанавливаю зависимости (npm install)... это займёт пару минут.
+L_ERR_NPM=[ОШИБКА] Не удалось поставить зависимости. См. docs\npm-failed.txt
+L_NODE_ASK=Скачать Node.js LTS автоматически? (Y/N):

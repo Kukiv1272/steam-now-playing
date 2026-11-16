@@ -55,18 +55,51 @@ node src/index.js --update         # обновиться до последне�
 
 ## Запуск без консоли
 
-**`start-bot.bat`** — двойной клик, и всё: перед запуском он сам проверяет требования.
-- Проверяет **Node.js**: если не найден — предложит **скачать LTS автоматически** (Y/N); portable-версия ставится в папку `node` внутри проекта, в систему ничего не пишется. Если откажешься — подскажет ссылку на ручную установку
-- Проверяет **npm** и **версию Node (18+)**
-- Проверяет **зависимости** и при необходимости сам ставит их (`npm install`)
-- Создаёт **`.env`** из `.env.example`, если файла нет
-- При первом запуске запускает мастер: язык, ники, тип и ориентация витрины
-- Если бот падает — перезапускает через 5 секунд; скажет, если бот уже запущен вторым окном
+**`start-bot.bat`** — двойной клик открывает менеджер в стиле zapret: бот запускается фоном (свёрнутое окно `snp-bot`, лог — `bot.log`), меню остаётся под рукой.
+
+```
+  STEAM NOW-PLAYING BOT v1.1.2
+  Bot: [RUNNING]  Showcase: type=22 wide slot=0
+  Sources:  lastfm=...  statsfm=...
+
+  :: SERVICE
+     1. Start bot              (background window, log: bot.log)
+     2. Remove service         (graceful stop + artwork cleanup)
+     3. View log               (live, 0 = back)
+
+  :: SETTINGS
+     4. Settings               (toggles, saved to .env)
+
+  :: DIAGNOSTICS
+     5. What is playing now    (JSON)
+     6. Upload card now        (needs Steam login)
+     7. Check site availability
+
+  :: UPDATES
+     8. Check for updates      (offers to update if found)
+
+  :: CONFIG
+     9. Edit .env              (open in Notepad)
+
+  ----------------------------------------
+     0. Exit
+```
+
+- **Start bot** — запускает бота в свёрнутом окне; меню сразу пишет «Bot is running» и возвращается
+- **Remove service** — плавная остановка через `stop.flag`: бот успевает почистить карточку с витрины и выйти (принудительный `taskkill` — только запасной вариант)
+- **View log** — живой просмотр `bot.log`: автообновление каждые 2 секунды, `0` — вернуться в меню
+- **Settings** — подменю переключателей: язык, витрина вкл/выкл, тип витрины, ориентация карточки, чистка при выходе, дедупликация и ники last.fm / stats.fm. Всё пишется в `.env`, хот-релоад применяет без перезапуска
+- **Check site availability** — доступность stats.fm / last.fm / Steam / GitHub / iTunes (с учётом прокси из `.env`)
+- **Edit .env** — открыть `.env` в Блокноте
+- Шапка показывает статус бота и текущие настройки витрины
+- **Язык меню** — берётся из `LANG` в `.env` (ru/en) и применяется сразу: тексты лежат в `docs/menu-ru.txt` и `docs/menu-en.txt`, их можно править под себя
+
+Перед первым запуском менеджер сам проверяет требования: Node.js 18+ (если нет — предложит скачать portable LTS в папку `node`), `npm`, папку проекта, создание `.env`, зависимости (`npm install`).
 
 Остальное:
-- **`start-bot-hidden.vbs`** — скрытный запуск без окна (удобно для автозапуска). Лог пишется в `bot.log`.
-- **Автозапуск при входе в Windows**: `Win+R` → `shell:startup` → положи туда ярлык на `start-bot.bat` (или на `start-bot-hidden.vbs` для запуска без окна).
-- **Аргументы прокидываются**: `start-bot.bat --update`, `start-bot.bat --once` — разовый запуск без цикла перезапуска.
+- **`start-bot-hidden.vbs`** — скрытный запуск бота без меню (лог в `bot.log`). Удобно для автозагрузки.
+- **Автозапуск при входе в Windows**: `Win+R` → `shell:startup` → ярлык на `start-bot-hidden.vbs`.
+- **Аргументы в обход меню**: `start-bot.bat --once`, `--update`, `--check-updates`, `--check-sites` — команда выполнится и менеджер закроется.
 
 ## Обновление
 
@@ -315,6 +348,7 @@ src/
   index.js      — главный цикл
 docs/
   install-help.txt, npm-failed.txt, node-missing.txt — подсказки для батников
+  menu-ru.txt / menu-en.txt — тексты меню лончера (язык из LANG)
 ```
 
 ## Риски

@@ -1,6 +1,6 @@
 {
   "name": "steam-now-playing",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "description": "Shows what you're listening to on Steam: status text via stats.fm/last.fm + track cover in the artwork showcase",
   "type": "module",
   "main": "src/index.js",

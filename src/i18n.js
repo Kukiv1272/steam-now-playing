@@ -1,4 +1,4 @@
-// i18n: t(key, params) — язык из LANG (ru/en), хот-релоад через .env
+﻿// i18n: t(key, params) — язык из LANG (ru/en), хот-релоад через .env
 const dicts = {
   ru: {
     menu_title: "=== Как войти в Steam? ===",
@@ -41,13 +41,11 @@ const dicts = {
     fatal: "Фатально: {message}",
     showcase_no_cover: "Нет обложки, пропускаю",
     showcase_default_cover: "Обложки нет нигде — ставлю свою (DEFAULT_COVER)",
-    showcase_generating: "Генерирую карточку...",
     showcase_uploading: "Заливаю артворк...",
     showcase_uploaded: "Артворк залит id={id}, обновляю витрину...",
     showcase_updated: "Витрина обновлена",
     showcase_failed: "Ошибка: {message}",
     showcase_no_slot: "Витрина иллюстраций не найдена на странице edit/showcases. Добавь её в профиле вручную",
-    showcase_slot_added: "Слот витрины пуст — добавляю publishedfileid",
     showcase_no_upload_form: "Страница загрузки арта не открылась (нет формы SubmitItemForm)",
     showcase_rate_limited: "Steam лимитирует запросы (429), жду {wait}с...",
     showcase_cleanup_failed: "Очистка старых артов не удалась: {message}",
@@ -146,13 +144,11 @@ const dicts = {
     fatal: "Fatal: {message}",
     showcase_no_cover: "No cover url, skipping",
     showcase_default_cover: "No cover anywhere — using mine (DEFAULT_COVER)",
-    showcase_generating: "Generating card...",
     showcase_uploading: "Uploading artwork...",
     showcase_uploaded: "Artwork uploaded id={id}, updating showcase...",
     showcase_updated: "Showcase updated",
     showcase_failed: "Failed: {message}",
     showcase_no_slot: "Artwork showcase not found on the edit/showcases page. Add it to your profile manually",
-    showcase_slot_added: "Showcase slot empty — adding publishedfileid",
     showcase_no_upload_form: "Artwork upload page didn't load (no SubmitItemForm)",
     showcase_rate_limited: "Steam is rate-limiting (429), waiting {wait}s...",
     showcase_cleanup_failed: "Cleanup of old artworks failed: {message}",

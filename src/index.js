@@ -28,6 +28,8 @@ process.on("warning", (w) => {
 });
 
 const startedAt = Date.now();
+// Флаг плавной остановки для лончера (см. pollLoop)
+const STOP_FLAG = new URL("../stop.flag", import.meta.url);
 let lastStateKey = null;
 let lastShowcaseAt = 0;
 // Дедупликация карточек: если этот же ключ уже налит — не заливаем арт
@@ -159,14 +161,51 @@ async function main() {
   await ensureNicknames(); // первый запуск: ники last.fm/stats.fm (Enter — пропустить)
   const runOnce = process.argv.includes("--once");
 
-  // Проверка обновлений: сравнить локальную версию с последним релизом и выйти
+  // Проверка обновлений: сравнить локальную версию с последним релизом и выйти.
+  // Коды выхода для лончера: 0 = обновлений нет, 3 = есть обновление, 1 = ошибка.
   if (process.argv.includes("--check-updates")) {
     const r = await checkForUpdates();
     const version = r.version ? `${r.version} (${r.remote.slice(0, 7)})` : r.remote.slice(0, 7);
-    if (r.error) console.log(`[update] ${t("update_check_failed", { message: r.error })}`);
-    else if (r.versionUnknown) console.log(`[update] ${t("update_version_unknown")}`);
-    else if (r.updateAvailable) console.log(`[update] ${t("update_available", { version })}`);
-    else console.log(`[update] ${t("update_up_to_date", { version })}`);
+    if (r.error) {
+      console.log(`[update] ${t("update_check_failed", { message: r.error })}`);
+      process.exitCode = 1;
+    } else if (r.versionUnknown) {
+      console.log(`[update] ${t("update_version_unknown")}`);
+    } else if (r.updateAvailable) {
+      console.log(`[update] ${t("update_available", { version })}`);
+      process.exitCode = 3;
+    } else {
+      console.log(`[update] ${t("update_up_to_date", { version })}`);
+    }
+    return;
+  }
+
+  // Диагностика сети: доступны ли источники (с учётом прокси из .env)
+  if (process.argv.includes("--check-sites")) {
+    const { ProxyAgent } = await import("undici");
+    const p = process.env.UPDATE_PROXY || config.lastfm.proxy || "";
+    const dispatcher = p ? new ProxyAgent(p) : undefined;
+    const targets = [
+      ["stats.fm API", "https://api.stats.fm/api/v1/users/1", false],
+      ["last.fm API", `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(config.lastfm.username || "rj")}&api_key=${config.lastfm.apiKey}&format=json&limit=1`, true],
+      ["Steam community", "https://steamcommunity.com/", false],
+      ["Steam store", "https://store.steampowered.com/", false],
+      ["GitHub API", "https://api.github.com/rate_limit", true],
+      ["iTunes Search", "https://itunes.apple.com/search?term=a&limit=1", false],
+    ];
+    for (const [name, url, viaProxy] of targets) {
+      const t0 = Date.now();
+      try {
+        const res = await fetch(url, {
+          dispatcher: viaProxy && dispatcher ? dispatcher : undefined,
+          headers: { "User-Agent": "steam-now-playing" },
+          signal: AbortSignal.timeout(8000),
+        });
+        console.log(`[net] ${name.padEnd(18)} OK   HTTP ${res.status}  ${Date.now() - t0}ms${viaProxy && p ? "  (proxy)" : ""}`);
+      } catch (e) {
+        console.log(`[net] ${name.padEnd(18)} FAIL ${String(e.message).slice(0, 40)}  ${Date.now() - t0}ms${viaProxy && p ? "  (proxy)" : ""}`);
+      }
+    }
     return;
   }
 
@@ -356,6 +395,14 @@ async function main() {
       } catch (e) {
         console.error(`[main] ${t("poll_failed", { message: e.message })}`);
       }
+      // Плавная остановка по флагу: лончер создаёт stop.flag — бот успевает
+      // почистить арты витрины и корректно выйти (taskkill /f пропустил бы это)
+      try {
+        if (fs.existsSync(STOP_FLAG)) {
+          fs.rmSync(STOP_FLAG, { force: true });
+          await shutdown("stop-flag");
+        }
+      } catch {}
       await new Promise((r) => setTimeout(r, Math.max(1000, config.pollMs)));
     }
   };
