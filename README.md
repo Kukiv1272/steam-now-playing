@@ -51,33 +51,20 @@ git push
 gh release create vX.Y.Z --target master --title "vX.Y.Z" --notes "что нового"
 ```
 
-## Сайты и прокси
+## Регистрация на сервисах
 
-Бот ходит на несколько сервисов — что ломается при блокировках и как обходить:
+Приоритет источников: **stats.fm → last.fm**, нужен хотя бы один. Без регистрации и скробблера боту неоткуда брать трек.
 
-| Сервис | Зачем | Прокси |
-|---|---|---|
-| stats.fm API | текущий трек | — |
-| last.fm API | текущий трек, обложки | `LASTFM_PROXY` |
-| steamcommunity.com | вход, заливка арта, витрина | — |
-| api.github.com | проверка и скачивание обновлений | `UPDATE_PROXY` |
-| iTunes Search, MusicBrainz / Cover Art Archive | добор обложек | — |
-| images.weserv.nl | запасной сервер загрузки обложек | — |
+**stats.fm** — [app.stats.fm](https://app.stats.fm): Sign up через email или Google. Ник виден в адресе профиля `app.stats.fm/ник`. В настройках профиля (Sources) подключи Spotify — в один клик. Без подписки stats.fm синхронизирует только Spotify: если слушаешь не в нём, подключи last.fm-скробблер.
 
-Прокси — обычный HTTP-прокси локального VPN-клиента (v2rayN, clash):
+**last.fm** — [last.fm/join](https://www.last.fm/join): email, ник, пароль (можно через мобильное приложение). Ник виден в адресе профиля `last.fm/user/ник`. Подключи скробблер — то, что играет, в last.fm сообщают внешние сервисы: YouTube Music / Spotify / Яндекс Музыка через браузерное расширение, на телефоне — Pano Scrobbler или похожий. Свой API key не обязателен (встроен в бота); свой на случай лимитов: [last.fm/api/account/create](https://www.last.fm/api/account/create) → `LASTFM_API_KEY`.
+
+Ники впиши в `.env` (или в настройках меню) — хот-релоад подхватит без перезапуска:
 
 ```env
-LASTFM_PROXY=http://127.0.0.1:10809
-UPDATE_PROXY=http://127.0.0.1:10809
+LASTFM_USERNAME=твой_ник
+STATSFM_USERNAME=твой_ник
 ```
-
-Через `LASTFM_PROXY` идут только запросы к last.fm, через `UPDATE_PROXY` — GitHub; остальное всегда напрямую. Если `UPDATE_PROXY` не задан, используется `LASTFM_PROXY`.
-
-Проверка доступности всех сервисов: `node src/index.js --check-sites` (или пункт 7 меню) — покажет статус и задержку каждого с учётом прокси.
-
-## Источники трека
-
-Приоритет: **stats.fm** (публичный профиль, без OAuth) → **last.fm** (API key встроен, нужен только ник). Без подписки stats.fm синхронизирует только Spotify — если слушаешь не в нём, используй last.fm-скробблер.
 
 ## Настройка
 
