@@ -27,19 +27,6 @@
 
 Дальше бот работает сам: меняется трек — меняется статус и карточка.
 
-## Меню (start-bot.bat)
-
-Двойной клик открывает менеджер: бот запускается фоном (свёрнутое окно `snp-bot`, лог `bot.log`).
-
-- **Start bot / Remove service** — запуск и плавная остановка (бот успевает почистить витрину)
-- **View log** — живой просмотр лога, `0` — назад
-- **Settings** — язык, витрина вкл/выкл, тип, ориентация карточки, ники; всё пишется в `.env` с хот-релоадом
-- **What is playing now / Upload card now / Check site availability** — диагностика
-- **Check for updates** — сверка с GitHub Releases
-- **Edit .env** — открыть в Блокноте
-
-Язык меню берётся из `LANG` в `.env` (тексты: `docs/menu-ru.txt` / `docs/menu-en.txt`). Скрытый автозапуск: `start-bot-hidden.vbs` → ярлык в `shell:startup`.
-
 ## Команды
 
 ```bash
@@ -63,6 +50,30 @@ node src/index.js --showcase-test  # залить карточку текуще�
 git push
 gh release create vX.Y.Z --target master --title "vX.Y.Z" --notes "что нового"
 ```
+
+## Сайты и прокси
+
+Бот ходит на несколько сервисов — что ломается при блокировках и как обходить:
+
+| Сервис | Зачем | Прокси |
+|---|---|---|
+| stats.fm API | текущий трек | — |
+| last.fm API | текущий трек, обложки | `LASTFM_PROXY` |
+| steamcommunity.com | вход, заливка арта, витрина | — |
+| api.github.com | проверка и скачивание обновлений | `UPDATE_PROXY` |
+| iTunes Search, MusicBrainz / Cover Art Archive | добор обложек | — |
+| images.weserv.nl | запасной сервер загрузки обложек | — |
+
+Прокси — обычный HTTP-прокси локального VPN-клиента (v2rayN, clash):
+
+```env
+LASTFM_PROXY=http://127.0.0.1:10809
+UPDATE_PROXY=http://127.0.0.1:10809
+```
+
+Через `LASTFM_PROXY` идут только запросы к last.fm, через `UPDATE_PROXY` — GitHub; остальное всегда напрямую. Если `UPDATE_PROXY` не задан, используется `LASTFM_PROXY`.
+
+Проверка доступности всех сервисов: `node src/index.js --check-sites` (или пункт 7 меню) — покажет статус и задержку каждого с учётом прокси.
 
 ## Источники трека
 
