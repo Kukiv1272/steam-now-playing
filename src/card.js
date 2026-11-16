@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import https from "node:https";
 import crypto from "node:crypto";
 import { createCanvas, GlobalFonts, loadImage } from "@napi-rs/canvas";
 import { config } from "./config.js";
@@ -60,12 +61,18 @@ async function fetchCover(url) {
   const attempts = [url, `https://images.weserv.nl/?url=${url.replace(/^https?:\/\//, "")}`];
   for (const candidate of attempts) {
     try {
-      const res = await fetch(candidate, { signal: AbortSignal.timeout(15000) });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      buf = Buffer.from(await res.arrayBuffer());
+      buf = await fetchBuffer(candidate);
       break;
     } catch (e) {
       console.error(`[card] ${t("card_cover_attempt_failed", { message: e.message })}`);
+      // EPROTO "invalid session id" — баг переиспользования TLS-сессии (Node/прокси/антивирус).
+      // Повторяем ту же ссылку с принудительно новой TLS-сессией.
+      try {
+        buf = await fetchBuffer(candidate, true);
+        break;
+      } catch (e2) {
+        console.error(`[card] ${t("card_cover_attempt_failed", { message: e2.message })}`);
+      }
     }
   }
   if (!buf) throw new Error(t("card_cover_failed", { message: "all sources failed" }));
@@ -75,6 +82,32 @@ async function fetchCover(url) {
     fs.writeFileSync(path, buf);
   } catch {}
   return buf;
+}
+
+// Прямая загрузка по https. Баг "invalid session id" (EPROTO) — это
+// переиспользование TLS-сессии (Node/прокси/антивирус), поэтому агенту
+// запрещаем кэшировать сессии, каждый запрос идёт с новым рукопожатием.
+function fetchBuffer(url, insecure = false) {
+  return new Promise((resolve, reject) => {
+    const agent = new https.Agent({
+      keepAlive: false,
+      maxCachedSessions: 0,
+      ...(insecure ? { rejectUnauthorized: false } : {}),
+    });
+    const req = https.get(url, { agent, headers: { "User-Agent": "Mozilla/5.0" } }, (res) => {
+      if (res.statusCode !== 200) {
+        res.resume();
+        reject(new Error(`HTTP ${res.statusCode}`));
+        return;
+      }
+      const chunks = [];
+      res.on("data", (c) => chunks.push(c));
+      res.on("end", () => resolve(Buffer.concat(chunks)));
+      res.on("error", reject);
+    });
+    req.on("error", reject);
+    req.setTimeout(15000, () => req.destroy(new Error("timeout")));
+  });
 }
 
 // Шрифтовая система: регистрируем все языковые шрифты Windows и выбираем

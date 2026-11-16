@@ -1,0 +1,139 @@
+﻿// --- ╨Ь╨╡╨╜╤О ╨▓╤Е╨╛╨┤╨░ ---
+
+async function chooseLoginMethod() {
+  console.log(`\n${t("menu_title")}`);
+  console.log(t("menu_qr"));
+  console.log(t("menu_password"));
+  console.log(`${t("menu_exit")}\n`);
+
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+  let choice;
+  try {
+    choice = (await rl.question(t("menu_prompt"))).trim();
+  } finally {
+    rl.close();
+  }
+
+  switch (choice) {
+    case "1":
+      return qrLogin();
+    case "2":
+      return passwordLogin();
+    default:
+      console.log(t("menu_exit_chosen"));
+      process.exit(0);
+  }
+}
+
+async function qrLogin() {
+  const { EAuthTokenPlatformType, LoginSession } = await import("steam-session");
+  const QRCode = (await import("qrcode")).default;
+  const session = new LoginSession(EAuthTokenPlatformType.SteamClient);
+  session.loginTimeout = 300000; // 5 ╨╝╨╕╨╜╤Г╤В ╨╜╨░ ╤Б╨║╨░╨╜
+
+  const resp = await session.startWithQR();
+  const url = resp.qrChallengeUrl;
+  if (!url) throw new Error(t("qr_no_challenge"));
+
+  // ASCII QR ╨┐╤А╤П╨╝╨╛ ╨▓ ╨║╨╛╨╜╤Б╨╛╨╗╨╕
+  const ascii = await QRCode.toString(url, { type: "terminal", small: true });
+  console.log(`\n${ascii}`);
+  console.log(`[login] ${t("qr_prompt")}`);
+  try {
+    await QRCode.toFile("steam-qr.png", url);
+    console.log(`[login] ${t("qr_fallback")}`);
+  } catch {}
+
+  await new Promise((resolve, reject) => {
+    session.on("remoteInteraction", () => {
+      console.log(`[login] ${t("qr_scanned")}`);
+    });
+    session.on("authenticated", resolve);
+    session.on("timeout", () => reject(new Error(t("qr_timeout"))));
+    session.on("error", reject);
+  });
+
+  const token = session.refreshToken;
+  console.log(`[login] ${t("qr_ok")}`);
+  return token;
+}
+
+async function passwordLogin() {
+  let username = config.steam.username;
+  let password = config.steam.password;
+
+  if (!username) {
+    username = await prompt(t("username_prompt"));
+  }
+  if (!password) {
+    password = await promptHidden(t("password_prompt"));
+  }
+
+  const sharedSecret = config.steam.sharedSecret;
+
+  const { EAuthTokenPlatformType, LoginSession } = await import("steam-session");
+  const session = new LoginSession(EAuthTokenPlatformType.SteamClient);
+
+  session.on("steamGuard", async (domain, callback, lastCodeWrong) => {
+    if (lastCodeWrong) console.log(`[login] ${t("code_wrong")}`);
+    let code;
+    if (sharedSecret) {
+      code = SteamTotp.generateAuthCode(sharedSecret);
+      console.log(`[login] ${t("code_generated")}`);
+    } else {
+      code = await prompt(t("code_prompt", { domain: domain || "email" }));
+    }
+    callback(code);
+  });
+
+  await session.startWithCredentials({ accountName: username, password });
+  const token = session.refreshToken;
+  console.log(`[login] ${t("password_ok")}`);
+  return token;
+}
+
+export async function login() {
+  attachClientHandlers();
+
+  // 1. ╨Я╤А╨╛╨▒╤Г╨╡╨╝ ╤Б╨╛╤Е╤А╨░╨╜╤С╨╜╨╜╤Л╨╣ ╤В╨╛╨║╨╡╨╜
+  const saved = loadSavedToken();
+  if (saved) {
+    try {
+      console.log(`[steam] ${t("try_token")}`);
+      await logOnWithRefreshToken(saved);
+      return;
+    } catch (e) {
+      console.error(`[steam] ${t("token_failed", { message: e.message })}`);
+    }
+  }
+
+  const token = await chooseLoginMethod();
+  saveToken(token);
+  await logOnWithRefreshToken(token);
+}
+
+export function setNowPlayingText(text) {
+  try {
+    console.log(`[steam] ${t("setting_status", { text })}`);
+    client.gamesPlayed(text);
+  } catch (e) {
+    console.error(`[steam] ${t("gamesplayed_failed", { message: e.message })}`);
+  }
+}
+
+export function clearNowPlaying() {
+  try {
+    console.log(`[steam] ${t("status_cleared")}`);
+    client.gamesPlayed([]); // ╨┐╤Г╤Б╤В╨╛╨╣ ╨╝╨░╤Б╤Б╨╕╨▓ = ╤Б╨▒╤А╨╛╤Б ╤Б╤В╨░╤В╤Г╤Б╨░ "╨Ш╨│╤А╨░╨╡╤В ╨▓ ..."
+  } catch (e) {
+    console.error(`[steam] ${t("gamesplayed_failed", { message: e.message })}`);
+  }
+}
+
+export function myProfileUrl() {
+  try {
+    return `https://steamcommunity.com/profiles/${community.steamID.getSteamID64()}`;
+  } catch {
+    return "https://steamcommunity.com/my";
+  }
+}

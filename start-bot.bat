@@ -162,12 +162,14 @@ echo      %L_SET_CLEAR% [%DISP_CLEAR%]
 echo      %L_SET_DEDUP% [%DISP_DEDUP%]
 echo      %L_SET_LFM% [%CUR_LFM%]
 echo      %L_SET_SFM% [%CUR_SFM%]
+echo      %L_SET_LOGIN%
 echo.
 echo   ----------------------------------------
 echo      %L_SET_BACK%
 echo.
-choice /c 012345678 /n /m "   %L_PROMPT_SET% "
+choice /c 0123456789 /n /m "   %L_PROMPT_SET% "
 if errorlevel 250 goto menu
+if errorlevel 10 goto set_login
 if errorlevel 9 goto set_sfm
 if errorlevel 8 goto set_lfm
 if errorlevel 7 goto set_dedup
@@ -221,6 +223,14 @@ goto opt_env
 set "NEWNICK="
 set /p "NEWNICK=   %L_NICK_SFM% "
 if not "%NEWNICK%"=="" call :env_set STATSFM_USERNAME "%NEWNICK%"
+goto opt_env
+
+:set_login
+call :cls_safe
+node src/index.js --login
+echo.
+echo %L_PRESS_KEY%
+pause >nul
 goto opt_env
 
 :saved

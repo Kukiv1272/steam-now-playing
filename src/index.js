@@ -158,6 +158,14 @@ async function clearShowcase() {
 
 async function main() {
   await ensureLanguage(); // первый запуск: выбор языка (ru/en) -> сохраняется в .env
+  // Только авторизация Steam: вход по QR/паролю/токену, refresh-token в
+  // tokens.json и выход — без мастера ников и цикла. Используется лончером
+  // (Settings -> Steam login), чтобы бот стартовал уже залогиненным.
+  if (process.argv.includes("--login")) {
+    await login();
+    console.log(`[steam] ${t("login_ok")}`);
+    process.exit(0);
+  }
   await ensureNicknames(); // первый запуск: ники last.fm/stats.fm (Enter — пропустить)
   const runOnce = process.argv.includes("--once");
 

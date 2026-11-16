@@ -75,7 +75,7 @@ STATSFM_USERNAME=твой_ник
 - `SHOWCASE_DEDUP` (track — карточка на каждый трек, album — реже заливок), `SHOWCASE_CLEAR_ON_EXIT`, `SHOWCASE_MIN_INTERVAL_MS`
 - `POLL_INTERVAL_MS`, `STATUS_TEMPLATE` ({title} / {artist} / {album} / {source}), `LANG=ru|en`
 - Прокси для заблокированных регионов: `LASTFM_PROXY` (только last.fm), `UPDATE_PROXY` (GitHub)
-- Steam-креды опциональны: без них вход по QR-коду; `STEAM_SHARED_SECRET` из SDA — код 2FA генерится сам
+- Steam-креды опциональны: без них вход по QR-коду; `STEAM_SHARED_SECRET` из SDA — код 2FA генерится сам. Войти заранее, не запуская бот: меню → Settings → **9. Steam login** — токен сохранится в `tokens.json`
 
 Смена ориентации или размеров карточки (`CARD_WIDTH`/`CARD_HEIGHT`) меняет ключ кэша — карточки перерисуются и перезальются, старые подчистятся.
 

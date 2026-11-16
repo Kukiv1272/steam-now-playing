@@ -1,0 +1,1415 @@
+[проверка] Node.js v24.22.1
+[проверка] зависимости OK
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ 0
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ 
+ERROR: The file is either empty or does not contain the valid choices.
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+=== bot.log — живой просмотр, последние 25 строк ===
+
+Get-Content : Cannot find path 'C:\Users\kukiv1272\Documents\Проект по умолчанию\steam-now-playing\bot.log' because it 
+does not exist.
+At line:1 char:1
++ Get-Content -Path 'bot.log' -Tail 25 -Encoding UTF8
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\kukiv1...playing\bot.log:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+
+  [автообновление 2с]   0 = назад в меню
+ X
+'il' is not recognized as an internal or external command,
+operable program or batch file.
+
+
+  STEAM NOW-PLAYING BOT v1.1.2
+  Бот: [ОСТАНОВЛЕН]  Витрина: type=22 wide slot=0
+  Источники:  lastfm=kukiv1272  statsfm=Kukiv1272
+  ----------------------------------------
+  :: СЛУЖБА
+     1. Запустить бота         (фоновое окно, лог: bot.log)
+     2. Остановить бота        (плавный стоп + чистка арта)
+     3. Смотреть лог           (живой, 0 = назад)
+  :: НАСТРОЙКИ
+     4. Настройки              (переключатели, в .env)
+  :: ДИАГНОСТИКА
+     5. Что играет сейчас      (JSON)
+     6. Залить карточку        (нужен вход в Steam)
+     7. Проверка доступности сайтов
+  :: ОБНОВЛЕНИЯ
+     8. Проверить обновления   (предложит установить)
+  :: КОНФИГ
+     9. Править .env           (в Блокноте)
+  ----------------------------------------
+     0. Выход
+
+Выбери пункт (0-9): 
