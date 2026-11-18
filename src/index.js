@@ -166,7 +166,11 @@ async function main() {
     console.log(`[steam] ${t("login_ok")}`);
     process.exit(0);
   }
-  await ensureNicknames(); // первый запуск: ники last.fm/stats.fm (Enter — пропустить)
+  // Служебные флаги (--check-updates, --check-sites, --update, ...) идут
+  // до мастера первого запуска: кнопка в лончере не должна превращаться
+  // в начальную настройку, если SETUP_DONE ещё не записан.
+  const hasCliFlag = process.argv.length > 2;
+  if (!hasCliFlag) await ensureNicknames(); // первый запуск: ники last.fm/stats.fm (Enter — пропустить)
   const runOnce = process.argv.includes("--once");
 
   // Проверка обновлений: сравнить локальную версию с последним релизом и выйти.
