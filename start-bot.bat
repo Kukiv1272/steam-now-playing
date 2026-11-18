@@ -95,6 +95,8 @@ if not errorlevel 1 (
   goto menu
 )
 echo %L_STARTING%
+rem Fresh log on every start: without this bot.log grows forever.
+break > bot.log
 rem Fully hidden launch: no console window is created at all, so closing
 rem any window cannot kill the bot. Detected/stopped by node command line.
 wscript.exe start-bot-hidden.vbs

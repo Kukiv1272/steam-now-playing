@@ -10,6 +10,9 @@ import {
   findArtworkByAlbum,
   buildArtTitle,
   reqRetry,
+  parseGalleryItems,
+  ART_SIGNATURE,
+  LEGACY_TITLE,
 } from "./showcase.js";
 import { t } from "./i18n.js";
 import { checkForUpdates, performUpdateAuto } from "./updater.js";
@@ -144,10 +147,13 @@ async function clearShowcase() {
       currentAlbumKey = null;
       return;
     }
-    // fileId не знаем (напр. бот перезапустился во время паузы) — чистим всю нашу
+    // fileId не знаем (напр. бот перезапустился во время паузы) — чистим только
+    // наши: с невидимой подписью бота или старым видимым именем "now-playing".
+    // Личные иллюстрации пользователя без подписи не трогаем.
     const { body } = await reqRetry(steamCommunity, "GET", { uri: `${myProfileUrl()}/images` });
-    const ids = [...new Set([...body.matchAll(/data-publishedfileid="(\d+)"/g)].map((m) => m[1]))];
-    for (const id of ids) {
+    for (const [id, text] of parseGalleryItems(body)) {
+      const ours = text.includes(ART_SIGNATURE) || text.trim() === LEGACY_TITLE;
+      if (!ours) continue; // не наш арт — не трогаем
       const ok = await deleteArtwork(steamCommunity, id);
       if (ok) console.log(`[showcase] ${t("showcase_cleared", { id })}`);
     }
