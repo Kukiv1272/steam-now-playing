@@ -6,9 +6,11 @@ title steam-now-playing
 
 rem ============================================================
 rem  Console manager for steam-now-playing (zapret-style menu).
-rem  Bot runs in a background window titled "snp-bot"; its output
-rem  goes to bot.log. "Remove service" stops it gracefully via
-rem  stop.flag (artwork cleanup), taskkill is only a fallback.
+rem  Bot runs fully hidden (start-bot-hidden.vbs, no window at all);
+rem  its output goes to bot.log. "Remove service" stops it gracefully
+rem  via stop.flag (artwork cleanup), taskkill on the node PID is only
+rem  a fallback. Running state = a node.exe with "src\index.js" on its
+rem  command line.
 rem  NOTE: keep this file ASCII-only (cmd misparses UTF-8 bats).
 rem  All menu texts live in docs\menu-ru.txt / docs\menu-en.txt
 rem  (UTF-8, loaded by :load_strings) and follow LANG from .env.
@@ -93,7 +95,9 @@ if not errorlevel 1 (
   goto menu
 )
 echo %L_STARTING%
-start "snp-bot" /min cmd /c "node src\index.js >> bot.log 2>&1"
+rem Fully hidden launch: no console window is created at all, so closing
+rem any window cannot kill the bot. Detected/stopped by node command line.
+wscript.exe start-bot-hidden.vbs
 ping -n 3 127.0.0.1 >nul
 call :bot_running
 if errorlevel 1 (
@@ -121,7 +125,7 @@ for /l %%i in (1,1,10) do (
   if errorlevel 1 goto stopped
 )
 echo %L_FORCE_KILL%
-taskkill /f /fi "WINDOWTITLE eq snp-bot*" /t >nul 2>&1
+if defined BOTPID taskkill /f /pid %BOTPID% /t >nul 2>&1
 :stopped
 if exist stop.flag del stop.flag
 echo %L_STOPPED_MSG%
@@ -352,10 +356,13 @@ set "LOADED_LANGFILE=%LANGFILE%"
 for /f "usebackq delims=" %%v in (`powershell -NoProfile -Command "Get-Content -LiteralPath '%LANGFILE%' -Encoding UTF8 | Where-Object { $_ -notmatch '^\s*#' -and $_ -match '=' }" ^< nul`) do set "%%v"
 exit /b 0
 
-rem --- Is the background bot running? (window title filter) ---
+rem --- Is the bot running? Find node.exe whose command line runs src\index.js.
+rem --- Works for the hidden launch (no window title to filter on).
 :bot_running
-tasklist /fi "WINDOWTITLE eq snp-bot*" 2>nul | find /i "cmd.exe" >nul
-exit /b %errorlevel%
+set "BOTPID="
+for /f "usebackq delims=" %%p in (`powershell -NoProfile -Command "(Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'node.exe' -and $_.CommandLine -like '*src\index.js*' } | Select-Object -First 1).ProcessId" ^< nul`) do set "BOTPID=%%p"
+if defined BOTPID if not "%BOTPID%"=="" exit /b 0
+exit /b 1
 
 rem --- Header info: version + showcase settings from .env ---
 :refresh_info

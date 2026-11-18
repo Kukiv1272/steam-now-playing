@@ -7,7 +7,7 @@ L_STOPPED=[STOPPED]
 L_SHOWCASE=Showcase
 L_SOURCES=Sources
 L_SEC_SERVICE=SERVICE
-L_OPT_START=1. Start bot              (background window, log: bot.log)
+L_OPT_START=1. Start bot              (hidden background, log: bot.log)
 L_OPT_REMOVE=2. Remove service         (graceful stop + artwork cleanup)
 L_OPT_LOG=3. View log               (live, 0 = back)
 L_SEC_SETTINGS=SETTINGS
@@ -23,7 +23,7 @@ L_OPT_ENV_EDIT=9. Edit .env              (open in Notepad)
 L_OPT_EXIT=0. Exit
 L_PROMPT_MAIN=Select option (0-9):
 L_ALREADY_RUNNING=Bot is already running.
-L_STARTING=Starting bot in a background window (log: bot.log)...
+L_STARTING=Starting bot in the background (log: bot.log)...
 L_START_FAILED=Bot exited immediately - check the log, option 3.
 L_STARTED=Bot is running.
 L_STOP_SIGNAL=Stop signal sent - waiting for graceful shutdown (artwork cleanup)...
